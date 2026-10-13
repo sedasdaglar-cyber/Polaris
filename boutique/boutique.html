@@ -183,6 +183,17 @@
 .plr-shop .plr-thumb small { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
 .plr-shop .plr-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .plr-shop .plr-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.plr-shop .plr-grade { font-size: 11px; font-weight: 900; letter-spacing: .8px; text-transform: uppercase; color: var(--plr-black); padding: 3px 8px; border-radius: 999px; }
+.plr-shop .plr-grade--commun { background: var(--plr-gray); }
+.plr-shop .plr-grade--peu-commun { background: #299F75; }
+.plr-shop .plr-grade--rare { background: var(--plr-active); }
+.plr-shop .plr-grade--epique { background: var(--plr-light-purple); }
+.plr-shop .plr-grade--legendaire { background: var(--plr-gold); }
+.plr-shop .plr-limit { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--text2); }
+.plr-shop .plr-limit svg { width: 14px; height: 14px; color: var(--nav); }
+.plr-shop .plr-card.is-soldout { opacity: .55; }
+.plr-shop .plr-card.is-soldout .plr-badge { background: var(--plr-error); color: #FFFFFF; }
+.plr-shop .plr-qty button:disabled { opacity: .35; cursor: not-allowed; }
 .plr-shop .plr-chip { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--tag-text); background: var(--tag-bg); padding: 3px 8px; border-radius: 999px; }
 .plr-shop .plr-card h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
 .plr-shop .plr-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -419,7 +430,7 @@
   /* ------------------------------------------------------------------
      OBJETS (source : base Notion « Boutique »)
      [nom, types, prix, points de combat, description, badge]
-     img : renseigner ITEM_IMG["Nom"] = "url" pour remplacer l'icône.
+     Limite d'achat, grade, image : voir META plus bas.
      ------------------------------------------------------------------ */
   var CATS = [
     { id: "arme", num: "001", label: "Armes", items: [
@@ -463,7 +474,16 @@
       ["Coupon de réduction pour une implantation capillaire", ["Esthétique"], null, 0, "", "Soon"]
     ]}
   ];
-  var ITEM_IMG = {};
+  /* Champs Notion « Limite d'achat », « Grade », « Image » (+ épuisé, à tenir à jour par le staff).
+     limite : "multiple" (défaut, vide dans Notion) | "personnage" (1 par personnage)
+              | "boutique" (unique dans toute la boutique : premier arrivé, premier servi)
+     grade  : "Commun" | "Peu commun" | "Rare" | "Épique" | "Légendaire"
+     img    : URL de l'image (remplace l'icône placeholder)
+     epuise : true quand l'exemplaire unique a déjà été acheté
+     Exemple : "Un Nokia 3310": { limite: "boutique", grade: "Légendaire", img: "https://…" } */
+  var META = {};
+  var LIMIT_LABEL = { personnage: "1 par personnage", boutique: "Exemplaire unique · premier arrivé, premier servi" };
+  var LIMIT_SHORT = { personnage: "1 par personnage", boutique: "Exemplaire unique" };
 
   var ICON = {
     arme: "M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2",
@@ -497,10 +517,16 @@
   CATS.forEach(function (c) {
     c.items = c.items.map(function (r) {
       var it = { name: r[0], tags: r[1], price: r[2], power: r[3], desc: r[4] || "Description à venir.", badge: r[5] || "", cat: c };
+      var m = META[it.name] || {};
+      it.limit = m.limite || "multiple";
+      it.max = it.limit === "multiple" ? Infinity : 1;
+      it.grade = m.grade || "";
+      it.img = m.img || "";
+      it.soldOut = !!m.epuise;
       it.stat = it.power ? STAT[c.id] + " +" + it.power : "";
       it.priceLabel = it.price == null ? "Prix à définir" : fmt(it.price);
       it.n = norm(it.name);
-      it.nt = norm(it.tags.join(" ") + " " + KW[c.id]);
+      it.nt = norm(it.tags.join(" ") + " " + KW[c.id] + " " + it.grade + " " + (LIMIT_LABEL[it.limit] || ""));
       it.nw = toWords(it.n);
       it.aw = toWords(it.n + " " + it.nt + " " + norm(it.desc));
       all.push(it); byName[it.name] = it;
@@ -511,6 +537,11 @@
   /* ---------- État ---------- */
   var state = { query: "", types: [], budget: false, sort: "def", closed: {}, cart: {}, ac: false, hi: 0 };
   try { state.cart = JSON.parse(store.get("plr-cart") || "{}") || {}; } catch (e) { state.cart = {}; }
+  /* panier sauvegardé : on respecte les limites d'achat actuelles */
+  Object.keys(state.cart).forEach(function (n) {
+    var it = byName[n];
+    if (!it || it.soldOut || it.price == null) delete state.cart[n]; else state.cart[n] = Math.min(state.cart[n], it.max);
+  });
 
   var totals = function () {
     var total = 0, count = 0;
@@ -518,6 +549,8 @@
     return { total: total, count: count, rest: SOLDE - total };
   };
   var setQty = function (name, q) {
+    var it = byName[name];
+    if (it) q = it.soldOut || it.price == null ? 0 : Math.min(q, it.max);
     if (q > 0) state.cart[name] = q; else delete state.cart[name];
     store.set("plr-cart", JSON.stringify(state.cart));
     renderCats(); renderCart();
@@ -566,18 +599,24 @@
   /* ---------- Rendu : catégories & cartes ---------- */
   function cardHTML(it) {
     var q = state.cart[it.name] || 0;
-    var media = ITEM_IMG[it.name]
-      ? '<img src="' + esc(ITEM_IMG[it.name]) + '" alt="" loading="lazy">'
+    var media = it.img
+      ? '<img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy">'
       : '<div class="plr-thumb-ic">' + svg(ICON[it.cat.id]) + '</div><small>Image à venir</small>';
     var action;
     if (it.price == null) action = '<span class="plr-soon">Bientôt dispo</span>';
+    else if (it.soldOut) action = '<span class="plr-soon">Déjà acheté</span>';
     else if (!q) action = '<button type="button" class="plr-btn plr-btn--primary" data-add="' + esc(it.name) + '" aria-label="Ajouter ' + esc(it.name) + ' au panier" style="padding:0 16px;gap:8px;font-size:14px">' + svg("M12 5v14M5 12h14") + '<span>Ajouter</span></button>';
+    else if (it.max === 1) action = '<button type="button" class="plr-btn plr-btn--secondary" data-dec="' + esc(it.name) + '" aria-label="Retirer ' + esc(it.name) + ' du panier" style="padding:0 14px;gap:8px;font-size:14px">' + svg("M5 12.5 10 17l9-10") + '<span>Dans le panier</span></button>';
     else action = '<div class="plr-step" role="group" aria-label="Quantité de ' + esc(it.name) + '"><button type="button" data-dec="' + esc(it.name) + '" aria-label="Retirer un ' + esc(it.name) + '">−</button><output>' + q + '</output><button type="button" class="plr-plus" data-add="' + esc(it.name) + '" aria-label="Ajouter un ' + esc(it.name) + '">+</button></div>';
-    return '<article class="plr-card">' +
-      (it.badge ? '<span class="plr-badge">' + esc(it.badge) + '</span>' : '') +
+    var badge = it.soldOut ? "Épuisé" : it.badge;
+    var gradeCls = norm(it.grade).replace(/[^a-z]+/g, "-");
+    return '<article class="plr-card' + (it.soldOut ? ' is-soldout' : '') + '">' +
+      (badge ? '<span class="plr-badge">' + esc(badge) + '</span>' : '') +
       '<div class="plr-thumb">' + media + '</div>' +
-      '<div class="plr-body"><div class="plr-chips">' + it.tags.map(function (t) { return '<span class="plr-chip">' + esc(t) + '</span>'; }).join("") + '</div>' +
-      '<h3>' + esc(it.name) + '</h3><p class="plr-desc">' + esc(it.desc) + '</p>' +
+      '<div class="plr-body"><div class="plr-chips">' + (it.grade ? '<span class="plr-grade plr-grade--' + gradeCls + '">' + esc(it.grade) + '</span>' : '') + it.tags.map(function (t) { return '<span class="plr-chip">' + esc(t) + '</span>'; }).join("") + '</div>' +
+      '<h3>' + esc(it.name) + '</h3>' +
+      (LIMIT_LABEL[it.limit] ? '<span class="plr-limit">' + svg("M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6zM9 12l2 2 4-4") + esc(LIMIT_LABEL[it.limit]) + '</span>' : '') +
+      '<p class="plr-desc">' + esc(it.desc) + '</p>' +
       '<div class="plr-foot"><div><span class="plr-price">' + it.priceLabel + '</span><span class="plr-stat">' + it.stat + '</span></div>' + action + '</div></div></article>';
   }
   function renderCats() {
@@ -622,7 +661,8 @@
       var it = byName[n], q = state.cart[n];
       return '<div class="plr-line"><div class="plr-line-ic">' + svg(ICON[it.cat.id]) + '</div>' +
         '<div class="plr-line-main"><span class="plr-line-name">' + esc(n) + '</span><span class="plr-line-unit">' + fmt(it.price) + ' × ' + q + '</span>' +
-        '<div class="plr-qty"><button type="button" data-dec="' + esc(n) + '" aria-label="Retirer un ' + esc(n) + '">−</button><b>' + q + '</b><button type="button" data-add="' + esc(n) + '" aria-label="Ajouter un ' + esc(n) + '">+</button></div></div>' +
+        '<div class="plr-qty"><button type="button" data-dec="' + esc(n) + '" aria-label="Retirer un ' + esc(n) + '">−</button><b>' + q + '</b><button type="button" data-add="' + esc(n) + '" aria-label="Ajouter un ' + esc(n) + '"' + (q >= it.max ? ' disabled' : '') + '>+</button></div>' +
+        (LIMIT_SHORT[it.limit] ? '<span class="plr-line-unit">' + esc(LIMIT_SHORT[it.limit]) + '</span>' : '') + '</div>' +
         '<div class="plr-line-end"><b class="plr-line-total">' + fmt(it.price * q) + '</b><button type="button" class="plr-btn plr-btn--tertiary" data-remove="' + esc(n) + '" style="min-height:32px;font-size:12px"><span>Retirer</span></button></div></div>';
     }).join("") : '<p class="plr-cart-empty">Ton panier est vide.<br>Même pas une chaussette sale.</p>';
     $("plr-total").textContent = fmt(T.total);
@@ -664,7 +704,7 @@
         .forEach(function (x) {
           var it = x.it, i = it.n.indexOf(t) === 0 ? 0 : (" " + it.n).search(new RegExp("[^a-z0-9]" + t.replace(/[^a-z0-9 ]/g, "\\$&")));
           var label = i >= 0 ? esc(it.name.slice(0, i)) + "<mark>" + esc(it.name.slice(i, i + t.length)) + "</mark>" + esc(it.name.slice(i + t.length)) : esc(it.name);
-          out.push({ icon: ICON[it.cat.id], html: label, sub: it.cat.label + (it.stat ? " · " + it.stat : "") + (i < 0 ? (x.s === 3 ? " · par catégorie" : " · trouvé dans la description") : ""), right: it.priceLabel,
+          out.push({ icon: ICON[it.cat.id], html: label, sub: it.cat.label + (it.grade ? " · " + it.grade : "") + (it.stat ? " · " + it.stat : "") + (i < 0 ? (x.s === 3 ? " · par catégorie" : " · trouvé dans la description") : ""), right: it.priceLabel,
             act: function () { state.query = it.name; $("plr-q").value = it.name; closeAc(); renderCats(); } });
         });
     }

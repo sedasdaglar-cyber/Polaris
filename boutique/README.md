@@ -20,7 +20,13 @@ garde le header du forum).
 - `ORDER_URL` : sujet où les commandes sont postées.
 - `SUN_DARK` / `SUN_LIGHT` : héberger `img/soleil-jaune-300.png` et `img/soleil-noir.png`
   (servimg…) puis remplacer les chemins, ainsi que le `src` de `#plr-sun`.
-- `ITEM_IMG["Nom de l'objet"] = "url"` : remplace l'icône placeholder par l'image.
+- `META["Nom de l'objet"]` : reprend les colonnes Notion de la base « Boutique » :
+  - `limite` (*Limite d'achat*) : `"multiple"` par défaut (cellule vide), `"personnage"` (1 par personnage),
+    `"boutique"` (unique dans toute la boutique, premier arrivé premier servi) ;
+  - `grade` (*Grade*) : `Commun`, `Peu commun`, `Rare`, `Épique`, `Légendaire` ;
+  - `img` (*Image*) : URL de l'image, qui remplace l'icône placeholder ;
+  - `epuise: true` : à mettre quand l'exemplaire unique a été acheté.
+  La *Catégorie* Notion correspond aux rayons de la page (Armes, Défense, Soins, Objets random, Esthétique).
 - Police des titres : `--plr-font-title` (Bodoni Moda en remplacement de la police du DS).
 
 ![Aperçu desktop](apercu.png)
