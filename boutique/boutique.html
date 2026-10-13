@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boutique Polaris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   BOUTIQUE POLARIS
+   Tout le style est scopé sous .plr-shop pour ne pas entrer en conflit
+   avec le CSS du forum. Pour recaler sur la charte du forum, il suffit
+   de modifier les variables ci-dessous.
+   ===================================================================== */
+.plr-shop {
+  /* Couleurs */
+  --plr-bg:          #0d1224;   /* fond de page */
+  --plr-surface:     #151c35;   /* cartes */
+  --plr-surface-2:   #1d2647;   /* zones icône / survol */
+  --plr-border:      #2b3660;
+  --plr-text:        #e6e9f5;
+  --plr-text-muted:  #9aa3c7;
+  --plr-accent:      #e8c66a;   /* or "étoile" */
+  --plr-accent-soft: rgba(232, 198, 106, .14);
+  --plr-link:        #8fb4ff;
+
+  /* Couleurs par type d'objet */
+  --plr-arme:        #e07a5f;
+  --plr-defense:     #e8c66a;
+  --plr-soin:        #6fcf97;
+  --plr-esthetique:  #b48cf2;
+  --plr-random:      #8fb4ff;
+
+  /* Typo */
+  --plr-font-title:  "Cinzel", Georgia, serif;
+  --plr-font-body:   "Lora", Georgia, serif;
+
+  --plr-radius:      10px;
+
+  font-family: var(--plr-font-body);
+  color: var(--plr-text);
+  background:
+    radial-gradient(1200px 500px at 50% -200px, rgba(143,180,255,.12), transparent 70%),
+    var(--plr-bg);
+  line-height: 1.55;
+  padding: 0 16px 48px;
+  box-sizing: border-box;
+}
+.plr-shop *, .plr-shop *::before, .plr-shop *::after { box-sizing: inherit; }
+.plr-shop .plr-wrap { max-width: 1100px; margin: 0 auto; }
+
+/* ---------- En-tête ---------- */
+.plr-shop .plr-hero {
+  position: relative;
+  text-align: center;
+  padding: 56px 0 32px;
+  overflow: hidden;
+}
+.plr-shop .plr-hero svg.plr-constellation {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: .5; pointer-events: none;
+}
+.plr-shop .plr-kicker {
+  font-family: var(--plr-font-title);
+  letter-spacing: .3em; text-transform: uppercase;
+  font-size: 12px; color: var(--plr-accent);
+}
+.plr-shop h1 {
+  font-family: var(--plr-font-title); font-weight: 700;
+  font-size: clamp(32px, 6vw, 52px); letter-spacing: .06em;
+  margin: 8px 0 12px; position: relative;
+}
+.plr-shop .plr-hero p {
+  max-width: 620px; margin: 0 auto; color: var(--plr-text-muted);
+  font-style: italic; position: relative;
+}
+
+/* ---------- Bloc "comment gagner des étoiles" ---------- */
+.plr-shop .plr-earn {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px; margin: 8px 0 32px;
+}
+.plr-shop .plr-earn div {
+  border: 1px solid var(--plr-border); border-radius: var(--plr-radius);
+  background: var(--plr-surface); padding: 12px 14px; font-size: 14px;
+}
+.plr-shop .plr-earn strong {
+  display: block; font-family: var(--plr-font-title);
+  color: var(--plr-accent); font-size: 18px;
+}
+
+/* ---------- Barre de filtres ---------- */
+.plr-shop .plr-toolbar {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  justify-content: space-between; margin-bottom: 20px;
+  border-top: 1px solid var(--plr-border); border-bottom: 1px solid var(--plr-border);
+  padding: 14px 0;
+}
+.plr-shop .plr-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.plr-shop .plr-chip {
+  font: 600 13px var(--plr-font-body);
+  border: 1px solid var(--plr-border); background: transparent;
+  color: var(--plr-text-muted); border-radius: 999px; padding: 6px 14px;
+  cursor: pointer; transition: .15s;
+}
+.plr-shop .plr-chip:hover { color: var(--plr-text); border-color: var(--plr-text-muted); }
+.plr-shop .plr-chip[aria-pressed="true"] {
+  background: var(--plr-accent-soft); color: var(--plr-accent); border-color: var(--plr-accent);
+}
+.plr-shop .plr-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.plr-shop .plr-controls input,
+.plr-shop .plr-controls select {
+  font: 14px var(--plr-font-body); color: var(--plr-text);
+  background: var(--plr-surface); border: 1px solid var(--plr-border);
+  border-radius: 8px; padding: 7px 10px; min-width: 0;
+}
+.plr-shop .plr-controls input { width: 200px; max-width: 100%; }
+
+/* ---------- Grille d'objets ---------- */
+.plr-shop .plr-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.plr-shop .plr-card {
+  display: flex; flex-direction: column;
+  background: var(--plr-surface); border: 1px solid var(--plr-border);
+  border-radius: var(--plr-radius); overflow: hidden;
+  transition: transform .15s, border-color .15s;
+  text-align: left; color: inherit; font: inherit; padding: 0; cursor: pointer;
+}
+.plr-shop .plr-card:hover,
+.plr-shop .plr-card:focus-visible { transform: translateY(-3px); border-color: var(--plr-accent); outline: none; }
+
+/* Emplacement image : remplacé par <img> quand "img" est renseigné */
+.plr-shop .plr-thumb {
+  position: relative; aspect-ratio: 4 / 3;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c) 22%, transparent), transparent 65%),
+    var(--plr-surface-2);
+  border-bottom: 1px solid var(--plr-border);
+}
+.plr-shop .plr-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.plr-shop .plr-thumb svg { width: 44%; height: auto; color: var(--c); }
+.plr-shop .plr-thumb .plr-ph {
+  position: absolute; bottom: 8px; right: 10px;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--plr-text-muted); opacity: .7;
+}
+.plr-shop .plr-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.plr-shop .plr-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.plr-shop .plr-tag {
+  font-size: 11px; font-weight: 600; letter-spacing: .04em;
+  padding: 2px 8px; border-radius: 4px;
+  color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent);
+}
+.plr-shop .plr-card h3 {
+  font-family: var(--plr-font-title); font-weight: 500; font-size: 16px;
+  margin: 0; line-height: 1.3;
+}
+.plr-shop .plr-desc {
+  font-size: 13.5px; color: var(--plr-text-muted); margin: 0;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.plr-shop .plr-foot {
+  margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--plr-border);
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.plr-shop .plr-price {
+  font-family: var(--plr-font-title); font-weight: 700; color: var(--plr-accent);
+  display: inline-flex; align-items: center; gap: 5px; font-size: 17px;
+}
+.plr-shop .plr-price svg { width: 15px; height: 15px; }
+.plr-shop .plr-price.is-tbd { color: var(--plr-text-muted); font-size: 13px; font-weight: 500; }
+.plr-shop .plr-stat { font-size: 12px; color: var(--plr-text-muted); white-space: nowrap; }
+.plr-shop .plr-stat b { color: var(--plr-text); }
+.plr-shop .plr-empty { text-align: center; color: var(--plr-text-muted); padding: 40px 0; font-style: italic; }
+
+/* ---------- Fiche détail (modale) ---------- */
+.plr-shop dialog {
+  border: 1px solid var(--plr-accent); border-radius: 14px; padding: 0;
+  background: var(--plr-surface); color: var(--plr-text);
+  width: min(560px, calc(100vw - 32px));
+}
+.plr-shop dialog::backdrop { background: rgba(5, 8, 20, .75); }
+.plr-shop dialog .plr-thumb { aspect-ratio: 16 / 9; }
+.plr-shop dialog .plr-thumb svg { width: 26%; }
+.plr-shop dialog .plr-body { padding: 20px 24px 24px; gap: 12px; }
+.plr-shop dialog h3 { font-family: var(--plr-font-title); font-weight: 500; font-size: 22px; margin: 0; }
+.plr-shop dialog .plr-desc { -webkit-line-clamp: unset; font-size: 15px; }
+.plr-shop .plr-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; flex-wrap: wrap; }
+.plr-shop .plr-btn {
+  font: 600 14px var(--plr-font-body); border-radius: 8px; padding: 9px 16px; cursor: pointer;
+  border: 1px solid var(--plr-border); background: transparent; color: var(--plr-text);
+  text-decoration: none;
+}
+.plr-shop .plr-btn--primary { background: var(--plr-accent); color: #1a1405; border-color: var(--plr-accent); }
+.plr-shop .plr-close {
+  position: absolute; top: 10px; right: 10px; z-index: 1;
+  width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(13,18,36,.7); color: var(--plr-text); font-size: 18px;
+}
+.plr-shop .plr-copied { font-size: 13px; color: var(--plr-soin); align-self: center; }
+
+@media (max-width: 560px) {
+  .plr-shop .plr-toolbar { flex-direction: column; align-items: stretch; }
+  .plr-shop .plr-controls input { flex: 1; width: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plr-shop .plr-card { transition: none; }
+}
+</style>
+</head>
+<body style="margin:0;background:#0d1224">
+
+<div class="plr-shop" id="plr-shop">
+  <div class="plr-wrap">
+
+    <header class="plr-hero">
+      <!-- Constellation décorative -->
+      <svg class="plr-constellation" viewBox="0 0 1100 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g stroke="#e8c66a" stroke-opacity=".35" stroke-width="1" fill="none">
+          <polyline points="80,190 170,120 260,150 330,70 420,95"/>
+          <polyline points="700,60 780,110 860,90 940,170 1030,140"/>
+          <line x1="860" y1="90" x2="900" y2="30"/>
+        </g>
+        <g fill="#e8c66a">
+          <circle cx="80" cy="190" r="2.5"/><circle cx="170" cy="120" r="3.5"/><circle cx="260" cy="150" r="2"/>
+          <circle cx="330" cy="70" r="4"/><circle cx="420" cy="95" r="2.5"/>
+          <circle cx="700" cy="60" r="3"/><circle cx="780" cy="110" r="2"/><circle cx="860" cy="90" r="4"/>
+          <circle cx="940" cy="170" r="2.5"/><circle cx="1030" cy="140" r="3"/><circle cx="900" cy="30" r="2"/>
+        </g>
+        <g fill="#e6e9f5" fill-opacity=".5">
+          <circle cx="40" cy="40" r="1"/><circle cx="520" cy="30" r="1.2"/><circle cx="600" cy="210" r="1"/>
+          <circle cx="230" cy="40" r="1"/><circle cx="1060" cy="50" r="1.2"/><circle cx="480" cy="200" r="1"/>
+        </g>
+      </svg>
+      <div class="plr-kicker">Polaris · Comptoir des étoiles</div>
+      <h1>La Boutique</h1>
+      <p>Dépensez les étoiles gagnées en RP pour équiper votre personnage… ou pour repartir avec une babouche. On ne juge pas.</p>
+    </header>
+
+    <section class="plr-earn" aria-label="Comment gagner des étoiles">
+      <div><strong>100 ★</strong>Valider sa fiche personnage</div>
+      <div><strong>50 ★</strong>Ouvrir un sujet RP</div>
+      <div><strong>30 ★</strong>Écrire un RP</div>
+      <div><strong>50–150 ★</strong>Participer à un événement RP</div>
+    </section>
+
+    <div class="plr-toolbar">
+      <div class="plr-filters" role="group" aria-label="Filtrer par type" id="plr-filters"></div>
+      <div class="plr-controls">
+        <input type="search" id="plr-search" placeholder="Rechercher un objet…" aria-label="Rechercher un objet">
+        <select id="plr-sort" aria-label="Trier">
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="name">Nom (A → Z)</option>
+          <option value="power">Points de combat</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="plr-grid" id="plr-grid"></div>
+    <p class="plr-empty" id="plr-empty" hidden>Aucun objet ne correspond… même pas une chaussette sale.</p>
+  </div>
+
+  <dialog id="plr-dialog" aria-labelledby="plr-d-title">
+    <button class="plr-close" type="button" aria-label="Fermer" data-close>×</button>
+    <div class="plr-thumb" id="plr-d-thumb"></div>
+    <div class="plr-body">
+      <div class="plr-tags" id="plr-d-tags"></div>
+      <h3 id="plr-d-title"></h3>
+      <p class="plr-desc" id="plr-d-desc"></p>
+      <div class="plr-foot">
+        <span class="plr-price" id="plr-d-price"></span>
+        <span class="plr-stat" id="plr-d-stat"></span>
+      </div>
+      <div class="plr-actions">
+        <span class="plr-copied" id="plr-d-copied" hidden>Commande copiée !</span>
+        <button class="plr-btn" type="button" id="plr-d-copy">Copier la commande</button>
+        <a class="plr-btn plr-btn--primary" id="plr-d-order" href="#">Passer commande</a>
+      </div>
+    </div>
+  </dialog>
+</div>
+
+<script>
+(function () {
+  /* ------------------------------------------------------------------
+     CONFIG
+     ORDER_URL : lien du sujet où les membres postent leurs achats.
+     ------------------------------------------------------------------ */
+  var ORDER_URL = "#";
+
+  /* ------------------------------------------------------------------
+     OBJETS (source : base Notion "Boutique")
+     img : laisser vide pour afficher l'icône placeholder, sinon mettre
+           l'URL de l'image (ex. hébergée sur servimg).
+     ------------------------------------------------------------------ */
+  var ITEMS = [
+    { name: "Couteau à beurre", types: ["Arme", "Random"], price: 150, power: 1, img: "",
+      desc: "Pas très efficace en combat mais possède une caractéristique de +1000 dans le tartinage sur du pain de mie sans croûte." },
+    { name: "La babouche", types: ["Arme", "Random"], price: 150, power: 1, img: "",
+      desc: "Pas sûre qu’elle soit à votre taille mais elle reste pratique pour foutre une grosse gifle dans la tronche de votre adversaire." },
+    { name: "Baguette de Paing", types: ["Arme", "Random"], price: 300, power: 3, img: "",
+      desc: "Relique ancestrale trouvée au fin fond de la Creuse française, dur comme de la pierre. Peut servir d’arme dans les cas extrêmes." },
+    { name: "Hache abîmée", types: ["Arme"], price: 350, power: 4, img: "",
+      desc: "Permet de couper du bois ou des têtes." },
+    { name: "Un arc avec 3 flèches", types: ["Arme"], price: 500, power: 3, img: "",
+      desc: "Si l’envie de cosplay Robin des Bois vous prend, cette arme est parfaite pour vous. À part cela, vous pouvez attaquer 3 fois grâce aux 3 flèches qui l’accompagnent." },
+    { name: "Épée en ferraille abîmée", types: ["Arme"], price: 500, power: 5, img: "", desc: "" },
+    { name: "Trompette du néant", types: ["Arme", "Random"], price: 550, power: 6, img: "",
+      desc: "Cet instrument émet un son très épique mais ne sert strictement à rien à part déranger vos voisins ou déstabiliser vos adversaires en détruisant leurs tympans." },
+    { name: "Katana de l’Abîme", types: ["Arme"], price: 800, power: 8, img: "",
+      desc: "Devenez un vrai weebo de la Japex et tranchez vos adversaires avec brio." },
+    { name: "Un Nokia 3310", types: ["Arme", "Random"], price: 3500, power: 20, img: "",
+      desc: "Relique du passé, il est inutile en tant que téléphone mais inarrêtable en tant qu’arme. On raconte qu’un seul lancer bien placé peut terrasser une armée mais… ce n’est qu’une légende, bien évidemment." },
+
+    { name: "Bouclier en bois", types: ["Défense"], price: 150, power: 2, img: "", desc: "" },
+    { name: "Bouclier en fer", types: ["Défense"], price: 300, power: 3, img: "", desc: "" },
+    { name: "Armure en métal", types: ["Défense"], price: 300, power: 3, img: "", desc: "" },
+
+    { name: "Cappuccino", types: ["Soin"], price: 100, power: 2, img: "", desc: "" },
+    { name: "Potion de soin Basico-Basic", types: ["Soin"], price: 300, power: 3, img: "",
+      desc: "C’est une potion tout ce qu’il y a de plus basique, même son goût n’a rien de particulier. C’est fade et sans saveur. Franchement, c’est décevant. Mais ça restaure un peu de vos PV." },
+    { name: "Le biscuit de Mamie", types: ["Soin"], price: 300, power: 3, img: "",
+      desc: "Croustillant et bien sucré, il vous apporte un sentiment de nostalgie et de bonheur." },
+    { name: "Le thé d’Aphrodite", types: ["Soin"], price: 450, power: 5, img: "",
+      desc: "Son parfum subtil et son goût si unique vous procurent une énergie particulière. Attention à ne pas vous brûler." },
+    { name: "Vitamine P", types: ["Soin"], price: 500, power: 5, img: "",
+      desc: "Aucun médecin ne valide son usage mais cela restaure quelques PV et c’est tout ce qui compte." },
+    { name: "Boisson énergisante PolaRIX", types: ["Soin"], price: 550, power: 6, img: "",
+      desc: "Goût étrange mais très sucrée. Provoque quelques petits tremblements mais rien de bien gravissime (sauf si vous en êtes à votre 15ème)." },
+
+    { name: "Une notice pour monter sa tour PC", types: ["Random"], price: 50, power: 0, img: "",
+      desc: "Vous n’avez pas de tour PC mais peut-être que ça peut vous servir, qui sait (personne) (encore moins la conne qui écrit ces lignes)." },
+    { name: "Mots croisés", types: ["Random"], price: 100, power: 0, img: "", desc: "Édition des années 2025." },
+    { name: "Un masque effrayant", types: ["Random"], price: 100, power: 0, img: "",
+      desc: "Ça aide à éloigner les enfants si vous les détestez." },
+    { name: "Un Tancarville de poche", types: ["Random"], price: 100, power: 0, img: "",
+      desc: "Nom donné par un peuple étrange, le reste du monde appelle ça “un étendoir”. Permet de faire sécher vos chaussettes ou vos sous-vêtements n’importe où." },
+    { name: "Une flûte à Pec", types: ["Random"], price: 150, power: 0, img: "",
+      desc: "Vous avez des souvenirs de guerre de vos cours de musique quand vous étiez petit. Permet d’enchanter votre crush et de faire grossir vos pectoraux." },
+    { name: "Un billet pour Disneyland", types: ["Random"], price: 200, power: 0, img: "", desc: "" },
+    { name: "Des cartes de tarot à l’image des Constellations", types: ["Random"], price: 300, power: 0, img: "",
+      desc: "Pour tirer l’avenir ou jouer le charlatan et gagner de la thune tel un arnaqueur." },
+    { name: "Un grimoire dans une langue inconnue", types: ["Random"], price: 600, power: 0, img: "",
+      desc: "Un ouvrage beaucoup trop poussiéreux pour en faire quoi que ce soit, la langue vous est inconnue et les dessins sont… spéciaux… serait-ce pour effectuer des rituels sataniques ?" },
+    { name: "Un trèfle à 7 feuilles", types: ["Random"], price: 600, power: 0, img: "",
+      desc: "On ignore l’origine de ce trèfle mais on suppose qu’il peut autant porter chance (ou malheur) sept fois." },
+    { name: "Carnet de l’apothicaire", types: ["Random"], price: 700, power: 0, img: "",
+      desc: "Utile pour concevoir du shit-euh pour concocter toutes sortes de potions. Incompréhensible pour des littéraires, un objet béni pour des scientifiques spécialisés en pharmaceutique." },
+    { name: "Investissement d’amélioration de QG (Dissident uniquement)", types: ["Random"], price: 2000, power: 0, img: "",
+      desc: "Votre QG est un peu miteux, mais ne vous inquiétez pas, avec Leroy Polaris et Ikeos, des axes d’amélioration sont possibles !" },
+    { name: "Coupon de réduction pour une implantation capillaire", types: ["Esthétique"], price: null, power: 0, img: "", desc: "" }
+  ];
+
+  /* ------------------------------------------------------------------
+     TYPES : couleur, libellé de la stat et icône placeholder (SVG trait)
+     ------------------------------------------------------------------ */
+  var TYPES = {
+    "Arme": { color: "var(--plr-arme)", stat: "Attaque",
+      icon: '<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>' },
+    "Défense": { color: "var(--plr-defense)", stat: "Défense",
+      icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 7v10"/><path d="M8 11h8"/>' },
+    "Soin": { color: "var(--plr-soin)", stat: "Soin",
+      icon: '<path d="M10 2v7.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>' },
+    "Esthétique": { color: "var(--plr-esthetique)", stat: "Style",
+      icon: '<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>' },
+    "Random": { color: "var(--plr-random)", stat: "Bonus",
+      icon: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/><path d="M10.5 6.2c.3-.9 2.7-.9 3 .3.2.9-1.5 1.2-1.5 2"/>' }
+  };
+  var ORDER = ["Arme", "Défense", "Soin", "Esthétique", "Random"];
+  var STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z"/></svg>';
+
+  var root = document.getElementById("plr-shop");
+  var grid = root.querySelector("#plr-grid");
+  var empty = root.querySelector("#plr-empty");
+  var search = root.querySelector("#plr-search");
+  var sort = root.querySelector("#plr-sort");
+  var filters = root.querySelector("#plr-filters");
+  var dialog = root.querySelector("#plr-dialog");
+  var state = { type: "Tous", q: "", sort: "price-asc" };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function main(item) { return TYPES[item.types[0]] || TYPES.Random; }
+  function fmt(n) { return n.toLocaleString("fr-FR"); }
+
+  function thumb(item) {
+    var t = main(item);
+    var inner = item.img
+      ? '<img src="' + esc(item.img) + '" alt="" loading="lazy">'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + t.icon + '</svg>' +
+        '<span class="plr-ph">Image à venir</span>';
+    return '<div class="plr-thumb" style="--c:' + t.color + '">' + inner + '</div>';
+  }
+  function tags(item) {
+    return item.types.map(function (ty) {
+      return '<span class="plr-tag" style="--c:' + TYPES[ty].color + '">' + ty + '</span>';
+    }).join("");
+  }
+  function price(item) {
+    return item.price == null
+      ? '<span class="plr-price is-tbd">Prix à définir</span>'
+      : '<span class="plr-price">' + STAR + fmt(item.price) + '</span>';
+  }
+  function stat(item) {
+    return item.power ? main(item).stat + ' <b>+' + item.power + '</b>' : "";
+  }
+
+  /* Filtres */
+  ["Tous"].concat(ORDER).forEach(function (ty) {
+    var n = ty === "Tous" ? ITEMS.length : ITEMS.filter(function (i) { return i.types.indexOf(ty) > -1; }).length;
+    if (!n) return;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "plr-chip"; b.dataset.type = ty;
+    b.textContent = ty + " (" + n + ")";
+    b.setAttribute("aria-pressed", ty === state.type);
+    filters.appendChild(b);
+  });
+  filters.addEventListener("click", function (e) {
+    var b = e.target.closest(".plr-chip"); if (!b) return;
+    state.type = b.dataset.type;
+    filters.querySelectorAll(".plr-chip").forEach(function (c) { c.setAttribute("aria-pressed", c === b); });
+    render();
+  });
+  search.addEventListener("input", function () { state.q = search.value.trim().toLowerCase(); render(); });
+  sort.addEventListener("change", function () { state.sort = sort.value; render(); });
+
+  function sorted(list) {
+    var p = function (i) { return i.price == null ? Infinity : i.price; };
+    var by = {
+      "price-asc": function (a, b) { return p(a) - p(b); },
+      "price-desc": function (a, b) { return (b.price || 0) - (a.price || 0); },
+      "name": function (a, b) { return a.name.localeCompare(b.name, "fr"); },
+      "power": function (a, b) { return (b.power || 0) - (a.power || 0); }
+    }[state.sort];
+    return list.slice().sort(by);
+  }
+
+  function render() {
+    var list = ITEMS.filter(function (i) {
+      return (state.type === "Tous" || i.types.indexOf(state.type) > -1) &&
+        (!state.q || (i.name + " " + i.desc).toLowerCase().indexOf(state.q) > -1);
+    });
+    grid.innerHTML = sorted(list).map(function (i) {
+      return '<button type="button" class="plr-card" data-i="' + ITEMS.indexOf(i) + '">' +
+        thumb(i) +
+        '<div class="plr-body"><div class="plr-tags">' + tags(i) + '</div>' +
+        '<h3>' + esc(i.name) + '</h3>' +
+        (i.desc ? '<p class="plr-desc">' + esc(i.desc) + '</p>' : '') +
+        '<div class="plr-foot">' + price(i) + '<span class="plr-stat">' + stat(i) + '</span></div>' +
+        '</div></button>';
+    }).join("");
+    empty.hidden = list.length > 0;
+  }
+
+  /* Fiche détail */
+  var current = null;
+  grid.addEventListener("click", function (e) {
+    var c = e.target.closest(".plr-card"); if (!c) return;
+    current = ITEMS[+c.dataset.i];
+    dialog.querySelector("#plr-d-thumb").outerHTML = thumb(current).replace('class="plr-thumb"', 'class="plr-thumb" id="plr-d-thumb"');
+    dialog.querySelector("#plr-d-tags").innerHTML = tags(current);
+    dialog.querySelector("#plr-d-title").textContent = current.name;
+    dialog.querySelector("#plr-d-desc").textContent = current.desc || "Description à venir.";
+    dialog.querySelector("#plr-d-price").outerHTML = price(current).replace('class="plr-price', 'id="plr-d-price" class="plr-price');
+    dialog.querySelector("#plr-d-stat").innerHTML = stat(current);
+    dialog.querySelector("#plr-d-order").href = ORDER_URL;
+    dialog.querySelector("#plr-d-copied").hidden = true;
+    dialog.showModal();
+  });
+  dialog.addEventListener("click", function (e) {
+    if (e.target === dialog || e.target.hasAttribute("data-close")) dialog.close();
+  });
+  dialog.querySelector("#plr-d-copy").addEventListener("click", function () {
+    var txt = "[b]Commande boutique[/b]\nObjet : " + current.name +
+      "\nPrix : " + (current.price == null ? "à définir" : current.price + " étoiles") + "\nPersonnage : ";
+    var done = function () { dialog.querySelector("#plr-d-copied").hidden = false; };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, function () {});
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
