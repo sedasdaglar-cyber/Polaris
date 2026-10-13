@@ -238,7 +238,43 @@ sans images-clés. Sur le web, on la remplace par une **rotation CSS continue** 
 qui s'arrête si `prefers-reduced-motion` est activé. Les PNG exportés sont dans
 [`boutique/img/`](boutique/img/).
 
-### 5.9 Badges et états (boutique)
+### 5.9 Barre joueur (haut de page)
+
+Pleine largeur, au-dessus de tout le contenu, séparée par un filet `--line` :
+- **à gauche** : avatar rond 44 px (liseré 2 px couleur principale, initiale en repli),
+  **nom du personnage** en gras, **points actuels** en couleur prix
+  (+ « · X ✦ après panier » en discret quand un panier est en cours) ;
+- **à droite** : la bascule de thème (soleil / interrupteur jaune / lune ; icônes masquées sur mobile).
+
+Ne pas laisser la bascule de thème seule dans un bandeau vide : elle va dans cette barre.
+
+### 5.10 Titres de section (pas d'accordéon)
+
+Quand une page propose déjà des filtres, les sections ne se replient pas : chaque section a un
+**grand titre** pour structurer la page.
+- Numéro « 001 » en Lato 14 px gras, interlettrage 2 px, couleur d'accent ;
+- titre en **Display, 30–44 px, capitales** ;
+- compteur à droite (« 9 objets ») en discret ;
+- filet de 2 px sous le titre, 48 px d'écart entre deux sections.
+
+Sur mobile, les cartes d'une section sont regroupées dans un seul bloc `--surface` arrondi,
+séparées par des filets.
+
+### 5.11 Tiroir / feuille du bas
+
+Pour une information utile mais pas permanente (ex. « Comment gagner des étoiles »), on utilise
+un **bouton secondaire** qui ouvre un tiroir, plutôt qu'un bloc affiché en permanence :
+- **desktop** : panneau à droite, 440 px, liseré gauche 6 px couleur principale ;
+- **mobile** : feuille qui monte du bas, 85 % de hauteur max, liseré haut, coins hauts 20 px ;
+- en-tête collant (titre Display + bouton ×), fermeture par ×, Échap ou clic à l'extérieur.
+
+### 5.12 Cartes : contenu non tronqué
+
+Les descriptions s'affichent **en entier** (pas de troncature). Dans une grille, les cartes d'une
+même rangée prennent la hauteur de la plus haute, et le pied de carte (prix + action) reste
+aligné en bas.
+
+### 5.13 Badges et états (boutique)
 
 | Élément | Style |
 |---|---|
@@ -319,10 +355,11 @@ Autres règles :
 1. **Fond** `--bg`, contenu en cartes `--surface` au rayon 12 px, gap 20 px.
 2. **Titre de page** en Display, dans un **bandeau** violet (nuit) ou cyan (jour) avec grain,
    ✦, ポラリス vertical et un soleil qui déborde.
-3. **Sections** en blocs repliables « 00X. NOM ».
+3. **Sections** avec un grand titre « 00X NOM » (5.10). Accordéon seulement s'il n'y a pas de filtres.
+   Infos secondaires dans un **tiroir** (5.11). Barre joueur en haut de page (5.9).
 4. **Actions** : un seul bouton **primaire** par zone ; secondaire pour l'alternative ;
    tertiaire pour les liens d'action discrets (« Effacer », « Retirer »).
-5. **Filtres** : Tags `SmallSousCate` à choix multiple. **Recherche** : champ Search, loupe à droite.
+5. **Filtres** : Tags `SmallSousCate` à choix multiple (un filtre peut afficher une valeur, ex. « Dans mon budget · 700 ✦ »). **Recherche** : champ Search, loupe à droite.
 6. **Accent jaune** réservé à : icônes, dates, prix, badges. Pas de texte jaune sur fond clair ou cyan.
 7. **Toujours prévoir les deux thèmes** avec les correspondances du tableau 2.3.
 8. **Mobile** : cartes en lignes (vignette 64 px à gauche), actions principales collées en bas,

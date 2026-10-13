@@ -106,7 +106,15 @@
 .plr-shop .plr-tag .plr-count { opacity: .7; }
 
 /* ---------- Bascule jour / nuit ---------- */
-.plr-shop .plr-topbar { display: flex; justify-content: flex-end; position: relative; z-index: 3; }
+.plr-shop .plr-playerbar { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px clamp(16px, 3vw, 40px); border-bottom: 1px solid var(--line); background: var(--bg); }
+.plr-shop .plr-player { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.plr-shop .plr-avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: grid; place-items: center; background: var(--icon-bg); color: var(--nav); border: 2px solid var(--primary); font-weight: 900; font-size: 16px; }
+.plr-shop .plr-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.plr-shop .plr-player-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.plr-shop .plr-player-name { font-weight: 900; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.plr-shop .plr-player-pts { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 900; color: var(--price); }
+.plr-shop .plr-player-pts svg { width: 13px; height: 13px; fill: currentColor; }
+.plr-shop .plr-player-pts small { font-size: 12px; font-weight: 400; color: var(--muted); }
 .plr-shop .plr-theme { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 999px; padding: 6px 12px; }
 .plr-shop .plr-switch { width: 48px; height: 26px; border-radius: 999px; border: 0; background: var(--plr-gold); position: relative; cursor: pointer; padding: 0; }
 .plr-shop .plr-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--plr-black); transition: left .2s; }
@@ -124,14 +132,25 @@
 .plr-shop .plr-kicker { position: relative; color: var(--kicker); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 .plr-shop .plr-hero h1 { position: relative; margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: clamp(52px, 9vw, 120px); line-height: .9; letter-spacing: 2px; color: #FFFFFF; text-transform: uppercase; }
 .plr-shop .plr-hero p { position: relative; margin: 0; max-width: 520px; color: var(--banner-text); font-size: 15px; }
-.plr-shop .plr-hero .plr-solde { position: relative; color: var(--banner-text); font-size: 14px; }
-.plr-shop .plr-hero .plr-solde b { color: var(--kicker); }
+.plr-shop .plr-hero .plr-earn-btn { position: relative; align-self: flex-start; margin-top: 4px; }
+.plr-shop .plr-hero .plr-earn-btn svg { width: 16px; height: 16px; fill: currentColor; stroke: none; }
 
 /* ---------- Gagner des étoiles ---------- */
-.plr-shop .plr-earn { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 12px 18px; border-radius: 12px; border: 1px dashed var(--line); }
-.plr-shop .plr-earn > span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text2); }
-.plr-shop .plr-earn b { color: var(--text); }
-.plr-shop .plr-earn svg { width: 12px; height: 12px; fill: var(--nav); }
+/* Tiroir (desktop : panneau à droite / mobile : feuille du bas) */
+.plr-shop .plr-drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(440px, 100vw); height: 100%; max-height: 100%; max-width: 100vw; padding: 0; border: 0; background: var(--surface); color: var(--text); border-left: 6px solid var(--primary); overflow-y: auto; }
+.plr-shop .plr-drawer[open] { animation: plr-slide-x .25s ease-out; }
+@keyframes plr-slide-x { from { transform: translateX(40px); opacity: 0; } }
+@keyframes plr-slide-y { from { transform: translateY(40px); opacity: 0; } }
+.plr-shop .plr-drawer-head { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px; background: var(--header); }
+.plr-shop .plr-drawer-head h2 { margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: 26px; line-height: 1.1; text-transform: uppercase; }
+.plr-shop .plr-drawer-close { width: 44px; height: 44px; border: 0; background: transparent; color: var(--text); font-size: 24px; cursor: pointer; flex-shrink: 0; }
+.plr-shop .plr-drawer-body { padding: 8px 24px 28px; }
+.plr-shop .plr-drawer h3 { margin: 22px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text2); }
+.plr-shop .plr-gain { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.plr-shop .plr-gain b { flex: 0 0 104px; color: var(--price); font-size: 15px; font-weight: 900; white-space: nowrap; }
+.plr-shop .plr-gain span { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; }
+.plr-shop .plr-gain small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.plr-shop .plr-drawer-note { margin: 20px 0 0; padding: 14px 16px; border-radius: 10px; background: var(--inner); font-size: 13px; line-height: 1.5; color: var(--text2); }
 
 /* ---------- Recherche, tri, filtres ---------- */
 .plr-shop .plr-tools { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 4; }
@@ -163,13 +182,12 @@
 .plr-shop .plr-empty[hidden] { display: none; }
 
 /* ---------- Catégories repliables ---------- */
-.plr-shop .plr-cat { border-radius: 12px; overflow: hidden; background: var(--surface); margin-bottom: 20px; }
-.plr-shop .plr-cat-head { width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--header); color: var(--text); border: 0; padding: 18px 22px; cursor: pointer; text-align: left; }
-.plr-shop .plr-cat-title { font-size: 13px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text2); }
-.plr-shop .plr-cat-count { margin-left: 12px; font-size: 12px; color: var(--muted); }
-.plr-shop .plr-chev { width: 14px; height: 14px; color: var(--nav); stroke-width: 2.5; transition: transform .3s; }
-.plr-shop .plr-cat-head[aria-expanded="false"] .plr-chev { transform: rotate(-90deg); }
-.plr-shop .plr-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; background: var(--inner); }
+.plr-shop .plr-cat + .plr-cat { margin-top: 48px; }
+.plr-shop .plr-cat-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 24px; border-bottom: 2px solid var(--line); }
+.plr-shop .plr-cat-num { font-size: 14px; font-weight: 900; letter-spacing: 2px; color: var(--nav); }
+.plr-shop .plr-cat-head h2 { margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: clamp(30px, 4vw, 44px); line-height: 1; letter-spacing: 1px; text-transform: uppercase; }
+.plr-shop .plr-cat-count { margin-left: auto; font-size: 13px; color: var(--muted); }
+.plr-shop .plr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
 
 /* ---------- Carte objet ---------- */
 .plr-shop .plr-card { position: relative; background: var(--surface); border-radius: 12px; overflow: hidden; border-top: 6px solid var(--primary); display: flex; flex-direction: column; transition: transform .15s; }
@@ -196,7 +214,7 @@
 .plr-shop .plr-qty button:disabled { opacity: .35; cursor: not-allowed; }
 .plr-shop .plr-chip { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--tag-text); background: var(--tag-bg); padding: 3px 8px; border-radius: 999px; }
 .plr-shop .plr-card h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
-.plr-shop .plr-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.plr-shop .plr-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text2); }
 .plr-shop .plr-foot { margin-top: auto; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .plr-shop .plr-price { color: var(--price); font-size: 18px; font-weight: 900; }
 .plr-shop .plr-stat { display: block; font-size: 12px; color: var(--muted); }
@@ -267,10 +285,16 @@
   .plr-shop .plr-cartbar b { font-size: 18px; font-weight: 900; color: var(--bar-total); }
   .plr-shop .plr-cartbar-n { background: var(--plr-gold); color: var(--plr-black); border-radius: 999px; min-width: 22px; padding: 1px 6px; font-size: 12px; font-weight: 900; text-align: center; }
   .plr-shop .plr-tags { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .plr-shop .plr-playerbar { padding: 12px 16px; }
+  .plr-shop .plr-theme .plr-ic { display: none; }
+  .plr-shop .plr-drawer { inset: auto 0 0 0; width: 100vw; height: auto; max-height: 85vh; border-left: 0; border-top: 6px solid var(--primary); border-radius: 20px 20px 0 0; }
+  .plr-shop .plr-drawer[open] { animation-name: plr-slide-y; }
 }
 @media (max-width: 600px) {
   /* Cartes en lignes */
-  .plr-shop .plr-grid { padding: 0; gap: 0; grid-template-columns: 1fr; }
+  .plr-shop .plr-grid { gap: 0; grid-template-columns: 1fr; background: var(--surface); border-radius: 12px; overflow: hidden; }
+  .plr-shop .plr-grid .plr-card:first-child { border-top: 0; }
+  .plr-shop .plr-cat-head { margin-bottom: 16px; }
   .plr-shop .plr-card { flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px; border-top: 1px solid var(--line); border-radius: 0; }
   .plr-shop .plr-card:hover { transform: none; }
   .plr-shop .plr-thumb { width: 64px; height: 64px; flex-shrink: 0; background: none; }
@@ -279,7 +303,7 @@
   .plr-shop .plr-thumb-ic svg { width: 30px; height: 30px; }
   .plr-shop .plr-body { padding: 0; gap: 3px; }
   .plr-shop .plr-card h3 { font-size: 14px; }
-  .plr-shop .plr-desc { font-size: 12px; -webkit-line-clamp: 2; }
+  .plr-shop .plr-desc { font-size: 12px; }
   .plr-shop .plr-foot { padding-top: 4px; flex-wrap: wrap; }
   .plr-shop .plr-price { font-size: 14px; }
   .plr-shop .plr-badge { position: static; align-self: flex-start; margin-bottom: 2px; }
@@ -290,16 +314,24 @@
 <body style="margin:0">
 
 <div class="plr-shop plr-dark" id="plr-shop">
-  <div class="plr-layout">
-    <main class="plr-main">
-
-      <div class="plr-topbar">
+  <!-- Barre joueur : avatar, personnage, points à gauche / thème à droite -->
+  <div class="plr-playerbar">
+    <div class="plr-player">
+      <span class="plr-avatar" id="plr-avatar" aria-hidden="true"></span>
+      <span class="plr-player-txt">
+        <span class="plr-player-name" id="plr-pname"></span>
+        <span class="plr-player-pts"><span id="plr-ppts"></span><small id="plr-ppts-cart"></small></span>
+      </span>
+    </div>
         <div class="plr-theme">
           <svg class="plr-ic" viewBox="0 0 24 24" style="color:#FCC430" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           <button type="button" class="plr-switch" id="plr-theme" aria-label="Basculer jour / nuit"></button>
           <svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         </div>
-      </div>
+  </div>
+
+  <div class="plr-layout">
+    <main class="plr-main">
 
       <!-- Bandeau : soleils Figma (img/), à héberger sur servimg puis remplacer SUN_DARK / SUN_LIGHT -->
       <div class="plr-hero-wrap">
@@ -322,17 +354,9 @@
           <span class="plr-kicker">Comptoir des étoiles</span>
           <h1>Boutique</h1>
           <p>Dépense les étoiles gagnées en RP pour équiper ton personnage… ou pour repartir avec une babouche. On ne juge pas.</p>
-          <span class="plr-solde">Ton solde : <b id="plr-solde-hero"></b></span>
+          <button type="button" class="plr-btn plr-btn--secondary plr-earn-btn" id="plr-earn-open" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg><span>Découvrir comment gagner des étoiles</span></button>
         </header>
       </div>
-
-      <section class="plr-earn" aria-label="Gagner des étoiles">
-        <span class="plr-label">Gagner des étoiles</span>
-        <span><b>+100</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Valider sa fiche personnage</span>
-        <span><b>+50</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Ouvrir un sujet RP</span>
-        <span><b>+30</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Écrire un RP</span>
-        <span><b>+50 à 150</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Participer à un événement RP</span>
-      </section>
 
       <section class="plr-tools" aria-label="Rechercher et filtrer">
         <div class="plr-tools-row">
@@ -401,6 +425,27 @@
     <b id="plr-cartbar-total"></b>
   </button>
 
+  <!-- Tiroir « Comment gagner des étoiles » (source : Notion, Système d'étoiles) -->
+  <dialog class="plr-drawer" id="plr-earn" aria-labelledby="plr-earn-t">
+    <div class="plr-drawer-head">
+      <h2 id="plr-earn-t">Gagner des étoiles</h2>
+      <button type="button" class="plr-drawer-close" id="plr-earn-close" aria-label="Fermer">×</button>
+    </div>
+    <div class="plr-drawer-body">
+      <h3>En RP</h3>
+      <div class="plr-gain"><b>+100 ✦</b><span>Valider sa fiche personnage<small>Récompense de démarrage</small></span></div>
+      <div class="plr-gain"><b>+50 ✦</b><span>Ouvrir un sujet RP</span></div>
+      <div class="plr-gain"><b>+30 ✦</b><span>Écrire un RP</span></div>
+      <div class="plr-gain"><b>+50 à 150 ✦</b><span>Participer à un événement RP<small>Selon l'importance de l'événement, versées à la fin</small></span></div>
+      <h3>Communauté</h3>
+      <div class="plr-gain"><b>+10 ✦</b><span>Souhaiter la bienvenue à un nouveau membre sur sa fiche<small>Les messages sans fond (« FIRST », « welcome hihi »…) ne comptent pas</small></span></div>
+      <div class="plr-gain"><b>+20 ✦</b><span>Participer à un événement Discord</span></div>
+      <div class="plr-gain"><b>+80 ✦</b><span>Sponsoriser un nouveau membre<small>Une fois, quand il est validé et a écrit au moins 1 RP</small></span></div>
+      <div class="plr-gain"><b>Variable</b><span>Initiative de communauté<small>Défis collectifs : étoiles selon la réussite du défi</small></span></div>
+      <p class="plr-drawer-note">Chaque achat validé est déduit de ton solde d'étoiles. Plus tu en accumules, plus tu as de chances d'attirer l'attention des Constellations…</p>
+    </div>
+  </dialog>
+
   <dialog id="plr-confirm" aria-labelledby="plr-confirm-t">
     <div class="plr-confirm">
       <div class="plr-confirm-ok"><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></div>
@@ -422,7 +467,17 @@
      ORDER_URL : sujet où les commandes sont postées.
      SUN_*     : soleils Figma, à héberger (servimg…) puis remplacer.
      ------------------------------------------------------------------ */
-  var SOLDE = 1500;
+  var PLAYER = { name: "Nom du personnage", avatar: "", points: 1500 };
+  /* Sur Forumactif, _userdata donne le pseudo et l'avatar du membre connecté */
+  try {
+    var ud = window._userdata;
+    if (ud && ud.session_logged_in) {
+      PLAYER.name = ud.username || PLAYER.name;
+      var m = /src="([^"]+)"/.exec(ud.avatar || "");
+      PLAYER.avatar = ud.avatar_link || (m && m[1]) || "";
+    }
+  } catch (e) {}
+  var SOLDE = PLAYER.points;
   var ORDER_URL = "#";
   var SUN_DARK = "img/soleil-jaune-300.png";
   var SUN_LIGHT = "img/soleil-noir.png";
@@ -535,7 +590,7 @@
   });
 
   /* ---------- État ---------- */
-  var state = { query: "", types: [], budget: false, sort: "def", closed: {}, cart: {}, ac: false, hi: 0 };
+  var state = { query: "", types: [], budget: false, sort: "def", cart: {}, ac: false, hi: 0 };
   try { state.cart = JSON.parse(store.get("plr-cart") || "{}") || {}; } catch (e) { state.cart = {}; }
   /* panier sauvegardé : on respecte les limites d'achat actuelles */
   Object.keys(state.cart).forEach(function (n) {
@@ -628,11 +683,10 @@
       if (SORTERS[state.sort]) items = items.slice().sort(SORTERS[state.sort]);
       if (!items.length) return;
       count += items.length;
-      var open = filtering || !state.closed[c.id];
-      html += '<section class="plr-cat"><button type="button" class="plr-cat-head" data-toggle="' + c.id + '" aria-expanded="' + open + '">' +
-        '<span><span class="plr-cat-title">' + c.num + '. ' + esc(c.label) + '</span><span class="plr-cat-count">' + items.length + ' objet' + (items.length > 1 ? 's' : '') + '</span></span>' +
-        svg("m6 9 6 6 6-6", "plr-chev") + '</button>' +
-        (open ? '<div class="plr-grid">' + items.map(cardHTML).join("") + '</div>' : '') + '</section>';
+      html += '<section class="plr-cat" aria-labelledby="plr-cat-' + c.id + '"><header class="plr-cat-head">' +
+        '<span class="plr-cat-num">' + c.num + '</span><h2 id="plr-cat-' + c.id + '">' + esc(c.label) + '</h2>' +
+        '<span class="plr-cat-count">' + items.length + ' objet' + (items.length > 1 ? 's' : '') + '</span></header>' +
+        '<div class="plr-grid">' + items.map(cardHTML).join("") + '</div></section>';
     });
     $("plr-cats").innerHTML = html;
     $("plr-empty").hidden = count > 0;
@@ -644,7 +698,7 @@
   /* ---------- Rendu : Tags (filtres à choix multiple) ---------- */
   function renderTags() {
     var tagIcon = function (on) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + (on ? CK : SQ) + '"/></svg>'; };
-    var html = '<button type="button" class="plr-tag" data-budget aria-pressed="' + state.budget + '">' + tagIcon(state.budget) + '<span>Dans mon budget</span></button>';
+    var html = '<button type="button" class="plr-tag" data-budget aria-pressed="' + state.budget + '">' + tagIcon(state.budget) + '<span>Dans mon budget</span><span class="plr-count">' + fmt(Math.max(totals().rest, 0)) + '</span></button>';
     CATS.forEach(function (c) {
       var t = TAG[c.id], on = state.types.indexOf(t) >= 0;
       var n = all.filter(function (it) { return it.tags.indexOf(t) >= 0; }).length;
@@ -667,7 +721,8 @@
     }).join("") : '<p class="plr-cart-empty">Ton panier est vide.<br>Même pas une chaussette sale.</p>';
     $("plr-total").textContent = fmt(T.total);
     $("plr-solde").textContent = fmt(SOLDE);
-    $("plr-solde-hero").textContent = fmt(SOLDE);
+    $("plr-ppts").textContent = fmt(SOLDE);
+    $("plr-ppts-cart").textContent = T.count ? "· " + fmt(T.rest) + " après panier" : "";
     $("plr-rest").textContent = fmt(T.rest);
     $("plr-rest").classList.toggle("is-neg", T.rest < 0);
     $("plr-poor").hidden = T.rest >= 0;
@@ -757,7 +812,6 @@
     if (d.add != null) setQty(d.add, (state.cart[d.add] || 0) + 1);
     else if (d.dec != null) setQty(d.dec, (state.cart[d.dec] || 0) - 1);
     else if (d.remove != null) setQty(d.remove, 0);
-    else if (d.toggle) { state.closed[d.toggle] = !state.closed[d.toggle]; renderCats(); }
     else if (d.type) { var i = state.types.indexOf(d.type); if (i < 0) state.types.push(d.type); else state.types.splice(i, 1); renderCats(); }
     else if (d.budget != null) { state.budget = !state.budget; renderCats(); }
     else if (d.clearAll != null) { state.query = ""; input.value = ""; state.types = []; state.budget = false; state.sort = "def"; $("plr-sort").value = "def"; closeAc(); renderCats(); }
@@ -784,6 +838,17 @@
     $("plr-confirm").close ? $("plr-confirm").close() : $("plr-confirm").removeAttribute("open");
     renderCats(); renderCart();
   });
+
+  /* ---------- Barre joueur ---------- */
+  $("plr-pname").textContent = PLAYER.name;
+  $("plr-avatar").innerHTML = PLAYER.avatar ? '<img src="' + esc(PLAYER.avatar) + '" alt="">' : esc(PLAYER.name.trim().charAt(0).toUpperCase() || "?");
+
+  /* ---------- Tiroir « gagner des étoiles » ---------- */
+  var earn = $("plr-earn");
+  $("plr-earn-open").addEventListener("click", function () { if (earn.showModal) earn.showModal(); else earn.setAttribute("open", ""); });
+  var closeEarn = function () { if (earn.close) earn.close(); else earn.removeAttribute("open"); };
+  $("plr-earn-close").addEventListener("click", closeEarn);
+  earn.addEventListener("click", function (e) { if (e.target === earn) closeEarn(); });
 
   renderCats(); renderCart();
 })();

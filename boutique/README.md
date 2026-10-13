@@ -16,7 +16,8 @@ Panneau d'admin → Modules → Pages HTML → créer une page et coller `boutiq
 garde le header du forum).
 
 ## À configurer (en haut du `<script>`)
-- `SOLDE` : étoiles du membre (valeur de démo : 1 500).
+- `PLAYER` : nom du personnage, avatar et points du membre (démo : « Nom du personnage », 1 500 ✦).
+  Sur Forumactif, le pseudo et l'avatar sont lus automatiquement depuis `_userdata` ; les points restent à brancher.
 - `ORDER_URL` : sujet où les commandes sont postées.
 - `SUN_DARK` / `SUN_LIGHT` : héberger `img/soleil-jaune-300.png` et `img/soleil-noir.png`
   (servimg…) puis remplacer les chemins, ainsi que le `src` de `#plr-sun`.
