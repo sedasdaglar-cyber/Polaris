@@ -6,281 +6,398 @@
 <title>Boutique Polaris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 /* =====================================================================
    BOUTIQUE POLARIS
-   Tout le style est scopé sous .plr-shop pour ne pas entrer en conflit
-   avec le CSS du forum. Pour recaler sur la charte du forum, il suffit
-   de modifier les variables ci-dessous.
+   Aligné sur le DS Figma « Polaritz » (variables Color, Buttons, Champs,
+   Tags, soleils animés). Tout est scopé sous .plr-shop pour ne pas entrer
+   en conflit avec le CSS du forum.
+   Titres : la police du DS (serif décorative) n'est pas encore branchée,
+   Bodoni Moda sert de remplaçant → changer --plr-font-title.
    ===================================================================== */
 .plr-shop {
-  /* Couleurs */
-  --plr-bg:          #0d1224;   /* fond de page */
-  --plr-surface:     #151c35;   /* cartes */
-  --plr-surface-2:   #1d2647;   /* zones icône / survol */
-  --plr-border:      #2b3660;
-  --plr-text:        #e6e9f5;
-  --plr-text-muted:  #9aa3c7;
-  --plr-accent:      #e8c66a;   /* or "étoile" */
-  --plr-accent-soft: rgba(232, 198, 106, .14);
-  --plr-link:        #8fb4ff;
+  /* Variables Figma (Color) */
+  --plr-purple: #591696;        /* Main/Purple */
+  --plr-blue: #0C9BC3;          /* Main/Blue */
+  --plr-white: #F6F6F6;         /* Main/White */
+  --plr-black: #0F0F0F;         /* Main/Black */
+  --plr-light-purple: #A771D9;  /* Secondary/Light Purple */
+  --plr-light-blue: #00C1EF;    /* Secondary/Light Blue */
+  --plr-gold: #FCC430;          /* Secondary/Gold */
+  --plr-gray: #DADADA;          /* Secondary/Gray */
+  --plr-mid-gray: #646464;      /* Secondary/Mid Grey */
+  --plr-dark-gray: #2C2C2C;     /* Secondary/Dark Gray */
+  --plr-bg-dark: #1A1A1A;       /* Background/Dark */
+  --plr-bg-light: #EBEFF4;      /* Background/Light */
+  --plr-error: #E73D3D;         /* From/error */
+  --plr-active: #208CEF;        /* From/Active */
 
-  /* Couleurs par type d'objet */
-  --plr-arme:        #e07a5f;
-  --plr-defense:     #e8c66a;
-  --plr-soin:        #6fcf97;
-  --plr-esthetique:  #b48cf2;
-  --plr-random:      #8fb4ff;
-
-  /* Typo */
-  --plr-font-title:  "Cinzel", Georgia, serif;
-  --plr-font-body:   "Lora", Georgia, serif;
-
-  --plr-radius:      10px;
+  --plr-font-title: "Bodoni Moda", Didot, Georgia, serif;
+  --plr-font-body: Lato, "Helvetica Neue", Arial, sans-serif;
 
   font-family: var(--plr-font-body);
-  color: var(--plr-text);
-  background:
-    radial-gradient(1200px 500px at 50% -200px, rgba(143,180,255,.12), transparent 70%),
-    var(--plr-bg);
-  line-height: 1.55;
-  padding: 0 16px 48px;
+  font-size: 15px;
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
   box-sizing: border-box;
 }
-.plr-shop *, .plr-shop *::before, .plr-shop *::after { box-sizing: inherit; }
-.plr-shop .plr-wrap { max-width: 1100px; margin: 0 auto; }
+.plr-shop *, .plr-shop *::before, .plr-shop *::after { box-sizing: border-box; }
 
-/* ---------- En-tête ---------- */
-.plr-shop .plr-hero {
-  position: relative;
-  text-align: center;
-  padding: 56px 0 32px;
-  overflow: hidden;
+/* Thème nuit */
+.plr-shop.plr-dark {
+  --bg: var(--plr-black); --surface: var(--plr-bg-dark); --inner: #141413; --header: var(--plr-bg-dark);
+  --primary: var(--plr-purple); --primary-soft: var(--plr-light-purple); --b3: var(--plr-gold);
+  --nav: var(--plr-gold); --price: var(--plr-gold); --icon-bg: rgba(252, 196, 48, .12);
+  --text: var(--plr-white); --text2: var(--plr-gray); --muted: #AFAFAF; --line: #2A2A2A;
+  --tag-bg: rgba(133, 99, 255, .18); --tag-text: #BB8FE6;
+  --field: var(--plr-dark-gray); --field-text: var(--plr-white);
+  --kicker: var(--plr-gold); --banner-text: #FFFFFF; --bar-total: var(--plr-gold);
+  --banner: radial-gradient(120% 140% at 85% 10%, #8563FF 0%, var(--plr-purple) 45%, #2a0a4a 100%);
 }
-.plr-shop .plr-hero svg.plr-constellation {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: .5; pointer-events: none;
-}
-.plr-shop .plr-kicker {
-  font-family: var(--plr-font-title);
-  letter-spacing: .3em; text-transform: uppercase;
-  font-size: 12px; color: var(--plr-accent);
-}
-.plr-shop h1 {
-  font-family: var(--plr-font-title); font-weight: 700;
-  font-size: clamp(32px, 6vw, 52px); letter-spacing: .06em;
-  margin: 8px 0 12px; position: relative;
-}
-.plr-shop .plr-hero p {
-  max-width: 620px; margin: 0 auto; color: var(--plr-text-muted);
-  font-style: italic; position: relative;
+/* Thème jour : le violet devient bleu, le jaune reste l'accent */
+.plr-shop.plr-light {
+  --bg: var(--plr-bg-light); --surface: var(--plr-white); --inner: #EEEEEE; --header: #D3ECF8;
+  --primary: var(--plr-blue); --primary-soft: #4FC3EA; --b3: var(--plr-blue);
+  --nav: var(--plr-blue); --price: #086985; --icon-bg: #D3ECF8;
+  --text: var(--plr-black); --text2: #3A3A3A; --muted: var(--plr-mid-gray); --line: #DADFE5;
+  --tag-bg: #D3ECF8; --tag-text: #086985;
+  --field: #FFFFFF; --field-text: var(--plr-black);
+  --kicker: var(--plr-black); --banner-text: var(--plr-black); --bar-total: #FFFFFF;
+  --banner: radial-gradient(120% 140% at 85% 10%, var(--plr-light-blue) 0%, var(--plr-blue) 55%, #076f8c 100%);
 }
 
-/* ---------- Bloc "comment gagner des étoiles" ---------- */
-.plr-shop .plr-earn {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 12px; margin: 8px 0 32px;
-}
-.plr-shop .plr-earn div {
-  border: 1px solid var(--plr-border); border-radius: var(--plr-radius);
-  background: var(--plr-surface); padding: 12px 14px; font-size: 14px;
-}
-.plr-shop .plr-earn strong {
-  display: block; font-family: var(--plr-font-title);
-  color: var(--plr-accent); font-size: 18px;
-}
+.plr-shop button { font-family: inherit; }
+.plr-shop .plr-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.plr-shop svg.plr-ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-/* ---------- Barre de filtres ---------- */
-.plr-shop .plr-toolbar {
-  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-  justify-content: space-between; margin-bottom: 20px;
-  border-top: 1px solid var(--plr-border); border-bottom: 1px solid var(--plr-border);
-  padding: 14px 0;
-}
-.plr-shop .plr-filters { display: flex; flex-wrap: wrap; gap: 6px; }
-.plr-shop .plr-chip {
-  font: 600 13px var(--plr-font-body);
-  border: 1px solid var(--plr-border); background: transparent;
-  color: var(--plr-text-muted); border-radius: 999px; padding: 6px 14px;
-  cursor: pointer; transition: .15s;
-}
-.plr-shop .plr-chip:hover { color: var(--plr-text); border-color: var(--plr-text-muted); }
-.plr-shop .plr-chip[aria-pressed="true"] {
-  background: var(--plr-accent-soft); color: var(--plr-accent); border-color: var(--plr-accent);
-}
-.plr-shop .plr-controls { display: flex; gap: 8px; flex-wrap: wrap; }
-.plr-shop .plr-controls input,
-.plr-shop .plr-controls select {
-  font: 14px var(--plr-font-body); color: var(--plr-text);
-  background: var(--plr-surface); border: 1px solid var(--plr-border);
-  border-radius: 8px; padding: 7px 10px; min-width: 0;
-}
-.plr-shop .plr-controls input { width: 200px; max-width: 100%; }
+/* ---------- Mise en page ---------- */
+.plr-shop .plr-layout { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.plr-shop .plr-main { flex: 999 1 560px; min-width: 0; padding: 24px clamp(16px, 3vw, 40px) 80px; display: flex; flex-direction: column; gap: 28px; }
+.plr-shop .plr-cart { flex: 1 1 340px; max-width: 100%; padding: 24px clamp(16px, 2vw, 32px) 80px 0; position: sticky; top: 0; align-self: flex-start; }
 
-/* ---------- Grille d'objets ---------- */
-.plr-shop .plr-grid {
-  display: grid; gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-}
-.plr-shop .plr-card {
-  display: flex; flex-direction: column;
-  background: var(--plr-surface); border: 1px solid var(--plr-border);
-  border-radius: var(--plr-radius); overflow: hidden;
-  transition: transform .15s, border-color .15s;
-  text-align: left; color: inherit; font: inherit; padding: 0; cursor: pointer;
-}
-.plr-shop .plr-card:hover,
-.plr-shop .plr-card:focus-visible { transform: translateY(-3px); border-color: var(--plr-accent); outline: none; }
+/* ---------- Boutons (DS Buttons) ---------- */
+.plr-shop .plr-btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; padding: 0 22px; border-radius: 6px; border: 2px solid transparent; font-family: var(--plr-font-body); font-size: 15px; font-weight: 700; line-height: 1; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.plr-shop .plr-btn span { text-underline-offset: 4px; }
+.plr-shop .plr-btn--primary { background: var(--primary); border-color: var(--primary); color: #FFFFFF; }
+.plr-shop .plr-btn--primary:hover { background: #F2F2F2; color: var(--primary); }
+.plr-shop .plr-btn--primary:active { background: #F2F2F2; border-color: var(--primary-soft); color: var(--primary-soft); }
+.plr-shop .plr-btn--primary:disabled, .plr-shop .plr-btn--primary:disabled:hover { background: #666666; border-color: #666666; color: #FFFFFF; cursor: not-allowed; }
+.plr-shop .plr-btn--secondary { background: #F5F5F5; color: var(--primary); }
+.plr-shop .plr-btn--secondary:hover span { text-decoration: underline; }
+.plr-shop .plr-btn--secondary:active { background: #EEEEEE; }
+.plr-shop .plr-btn--tertiary { background: transparent; color: var(--b3); padding: 0 6px; }
+.plr-shop .plr-btn--tertiary:hover span { text-decoration: underline; }
+.plr-shop .plr-btn--tertiary:active { opacity: .35; }
+.plr-shop .plr-btn:focus-visible, .plr-shop .plr-tag:focus-visible, .plr-shop .plr-step button:focus-visible { outline: 3px solid var(--plr-active); outline-offset: 2px; }
 
+/* ---------- Champs (DS Champs : Search / Select) ---------- */
+.plr-shop .plr-field { height: 44px; border-radius: 6px; border: 2px solid transparent; background: var(--field); color: var(--field-text); font-family: var(--plr-font-body); font-size: 14px; outline: none; }
+.plr-shop .plr-field::placeholder { font-style: italic; color: inherit; opacity: .75; }
+.plr-shop .plr-field:focus { border-color: var(--plr-active); }
+.plr-shop .plr-label { font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--text2); }
+
+/* ---------- Tags (DS Tags : case à cocher) ---------- */
+.plr-shop .plr-tag { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; min-height: 40px; padding: 8px 16px; border: 0; border-radius: 32px; background: var(--plr-dark-gray); color: var(--plr-white); font-size: 14px; line-height: 1.35; cursor: pointer; white-space: nowrap; }
+.plr-shop .plr-tag[aria-pressed="true"] { background: var(--plr-light-purple); color: var(--plr-black); }
+.plr-shop .plr-tag svg { width: 24px; height: 24px; fill: currentColor; }
+.plr-shop .plr-tag .plr-count { opacity: .7; }
+
+/* ---------- Bascule jour / nuit ---------- */
+.plr-shop .plr-topbar { display: flex; justify-content: flex-end; position: relative; z-index: 3; }
+.plr-shop .plr-theme { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 999px; padding: 6px 12px; }
+.plr-shop .plr-switch { width: 48px; height: 26px; border-radius: 999px; border: 0; background: var(--plr-gold); position: relative; cursor: pointer; padding: 0; }
+.plr-shop .plr-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--plr-black); transition: left .2s; }
+.plr-shop.plr-dark .plr-switch::after { left: 25px; }
+
+/* ---------- Bandeau + soleil animé (Figma « Animated elements ») ---------- */
+.plr-shop .plr-hero-wrap { position: relative; padding-right: clamp(0px, 9vw, 130px); }
+.plr-shop .plr-sun { position: absolute; right: 0; top: 50%; width: 300px; height: 300px; margin-top: -150px; z-index: 0; pointer-events: none; animation: plr-spin 40s linear infinite; }
+@keyframes plr-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .plr-shop .plr-sun { animation: none; } }
+.plr-shop .plr-hero { position: relative; z-index: 1; overflow: hidden; border-radius: 12px 12px 12px 72px; background: var(--banner); min-height: 280px; padding: 48px clamp(24px, 5vw, 64px); display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; }
+.plr-shop .plr-hero .plr-deco { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.plr-shop .plr-hero .plr-star { position: absolute; font-size: 18px; color: var(--plr-gold); }
+.plr-shop .plr-hero .plr-jp { position: absolute; right: 18px; top: 24px; writing-mode: vertical-rl; color: #FFFFFF; opacity: .55; letter-spacing: 8px; font-size: 14px; }
+.plr-shop .plr-kicker { position: relative; color: var(--kicker); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.plr-shop .plr-hero h1 { position: relative; margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: clamp(52px, 9vw, 120px); line-height: .9; letter-spacing: 2px; color: #FFFFFF; text-transform: uppercase; }
+.plr-shop .plr-hero p { position: relative; margin: 0; max-width: 520px; color: var(--banner-text); font-size: 15px; }
+.plr-shop .plr-hero .plr-solde { position: relative; color: var(--banner-text); font-size: 14px; }
+.plr-shop .plr-hero .plr-solde b { color: var(--kicker); }
+
+/* ---------- Gagner des étoiles ---------- */
+.plr-shop .plr-earn { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 12px 18px; border-radius: 12px; border: 1px dashed var(--line); }
+.plr-shop .plr-earn > span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text2); }
+.plr-shop .plr-earn b { color: var(--text); }
+.plr-shop .plr-earn svg { width: 12px; height: 12px; fill: var(--nav); }
+
+/* ---------- Recherche, tri, filtres ---------- */
+.plr-shop .plr-tools { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 4; }
+.plr-shop .plr-tools-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.plr-shop .plr-search { position: relative; flex: 1 1 280px; max-width: 560px; }
+.plr-shop .plr-search input { width: 100%; padding: 0 84px 0 16px; }
+.plr-shop .plr-search .plr-loupe { position: absolute; right: 14px; top: 12px; color: var(--field-text); pointer-events: none; }
+.plr-shop .plr-search .plr-clear { position: absolute; right: 40px; top: 0; width: 44px; height: 44px; border: 0; background: transparent; color: var(--field-text); font-size: 20px; cursor: pointer; }
+.plr-shop .plr-ac { position: absolute; left: 0; right: 0; top: 54px; z-index: 20; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+.plr-shop .plr-ac[hidden] { display: none; }
+.plr-shop .plr-opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 0; border-radius: 8px; padding: 6px 10px; min-height: 48px; cursor: pointer; background: transparent; color: var(--text); }
+.plr-shop .plr-opt[aria-selected="true"] { background: var(--icon-bg); }
+.plr-shop .plr-opt-ic { width: 34px; height: 34px; border-radius: 8px; background: var(--icon-bg); color: var(--nav); display: grid; place-items: center; flex-shrink: 0; }
+.plr-shop .plr-opt-ic svg { width: 18px; height: 18px; }
+.plr-shop .plr-opt-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; font-size: 14px; line-height: 1.3; }
+.plr-shop .plr-opt-txt mark { background: none; color: var(--price); font-weight: 900; }
+.plr-shop .plr-opt-txt small { font-size: 12px; color: var(--muted); }
+.plr-shop .plr-opt-price { font-size: 13px; font-weight: 900; color: var(--price); white-space: nowrap; }
+.plr-shop .plr-ac-msg { margin: 0; padding: 14px 10px; font-size: 14px; color: var(--text2); }
+.plr-shop .plr-ac-help { margin: 0; padding: 6px 10px 4px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); }
+.plr-shop .plr-sort { display: inline-flex; flex-direction: column; gap: 6px; }
+.plr-shop .plr-sort-box { position: relative; display: inline-flex; }
+.plr-shop .plr-sort select { appearance: none; -webkit-appearance: none; min-width: 200px; padding: 0 44px 0 16px; cursor: pointer; }
+.plr-shop .plr-sort-box svg { position: absolute; right: 14px; top: 50%; margin-top: -8px; width: 16px; height: 16px; color: var(--field-text); pointer-events: none; stroke-width: 2.5; }
+.plr-shop .plr-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.plr-shop .plr-results { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text2); }
+.plr-shop .plr-results[hidden] { display: none; }
+.plr-shop .plr-empty { padding: 40px 16px; text-align: center; border-radius: 12px; background: var(--surface); color: var(--text2); font-size: 14px; }
+.plr-shop .plr-empty[hidden] { display: none; }
+
+/* ---------- Catégories repliables ---------- */
+.plr-shop .plr-cat { border-radius: 12px; overflow: hidden; background: var(--surface); margin-bottom: 20px; }
+.plr-shop .plr-cat-head { width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--header); color: var(--text); border: 0; padding: 18px 22px; cursor: pointer; text-align: left; }
+.plr-shop .plr-cat-title { font-size: 13px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text2); }
+.plr-shop .plr-cat-count { margin-left: 12px; font-size: 12px; color: var(--muted); }
+.plr-shop .plr-chev { width: 14px; height: 14px; color: var(--nav); stroke-width: 2.5; transition: transform .3s; }
+.plr-shop .plr-cat-head[aria-expanded="false"] .plr-chev { transform: rotate(-90deg); }
+.plr-shop .plr-grid { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; background: var(--inner); }
+
+/* ---------- Carte objet ---------- */
+.plr-shop .plr-card { position: relative; background: var(--surface); border-radius: 12px; overflow: hidden; border-top: 6px solid var(--primary); display: flex; flex-direction: column; transition: transform .15s; }
+.plr-shop .plr-card:hover { transform: translateY(-3px); }
+.plr-shop .plr-badge { position: absolute; top: 12px; right: 12px; z-index: 1; background: var(--plr-gold); color: var(--plr-black); font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
 /* Emplacement image : remplacé par <img> quand "img" est renseigné */
-.plr-shop .plr-thumb {
-  position: relative; aspect-ratio: 4 / 3;
-  display: grid; place-items: center;
-  background:
-    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c) 22%, transparent), transparent 65%),
-    var(--plr-surface-2);
-  border-bottom: 1px solid var(--plr-border);
-}
-.plr-shop .plr-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.plr-shop .plr-thumb svg { width: 44%; height: auto; color: var(--c); }
-.plr-shop .plr-thumb .plr-ph {
-  position: absolute; bottom: 8px; right: 10px;
-  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--plr-text-muted); opacity: .7;
-}
-.plr-shop .plr-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.plr-shop .plr-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.plr-shop .plr-tag {
-  font-size: 11px; font-weight: 600; letter-spacing: .04em;
-  padding: 2px 8px; border-radius: 4px;
-  color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent);
-}
-.plr-shop .plr-card h3 {
-  font-family: var(--plr-font-title); font-weight: 500; font-size: 16px;
-  margin: 0; line-height: 1.3;
-}
-.plr-shop .plr-desc {
-  font-size: 13.5px; color: var(--plr-text-muted); margin: 0;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
-.plr-shop .plr-foot {
-  margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--plr-border);
-  display: flex; justify-content: space-between; align-items: center; gap: 8px;
-}
-.plr-shop .plr-price {
-  font-family: var(--plr-font-title); font-weight: 700; color: var(--plr-accent);
-  display: inline-flex; align-items: center; gap: 5px; font-size: 17px;
-}
-.plr-shop .plr-price svg { width: 15px; height: 15px; }
-.plr-shop .plr-price.is-tbd { color: var(--plr-text-muted); font-size: 13px; font-weight: 500; }
-.plr-shop .plr-stat { font-size: 12px; color: var(--plr-text-muted); white-space: nowrap; }
-.plr-shop .plr-stat b { color: var(--plr-text); }
-.plr-shop .plr-empty { text-align: center; color: var(--plr-text-muted); padding: 40px 0; font-style: italic; }
+.plr-shop .plr-thumb { height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: var(--inner); }
+.plr-shop .plr-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.plr-shop .plr-thumb-ic { width: 72px; height: 72px; border-radius: 16px; background: var(--icon-bg); display: grid; place-items: center; color: var(--nav); }
+.plr-shop .plr-thumb-ic svg { width: 36px; height: 36px; stroke-width: 1.5; }
+.plr-shop .plr-thumb small { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
+.plr-shop .plr-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.plr-shop .plr-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.plr-shop .plr-chip { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--tag-text); background: var(--tag-bg); padding: 3px 8px; border-radius: 999px; }
+.plr-shop .plr-card h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
+.plr-shop .plr-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.plr-shop .plr-foot { margin-top: auto; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.plr-shop .plr-price { color: var(--price); font-size: 18px; font-weight: 900; }
+.plr-shop .plr-stat { display: block; font-size: 12px; color: var(--muted); }
+.plr-shop .plr-soon { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.plr-shop .plr-step { display: inline-flex; align-items: center; gap: 4px; background: var(--inner); border: 2px solid var(--primary); border-radius: 6px; padding: 2px; }
+.plr-shop .plr-step button { width: 38px; height: 38px; border-radius: 4px; border: 0; background: transparent; color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer; padding: 0; }
+.plr-shop .plr-step button.plr-plus { background: var(--primary); color: #FFFFFF; }
+.plr-shop .plr-step output { min-width: 20px; text-align: center; font-size: 15px; font-weight: 900; }
 
-/* ---------- Fiche détail (modale) ---------- */
-.plr-shop dialog {
-  border: 1px solid var(--plr-accent); border-radius: 14px; padding: 0;
-  background: var(--plr-surface); color: var(--plr-text);
-  width: min(560px, calc(100vw - 32px));
-}
-.plr-shop dialog::backdrop { background: rgba(5, 8, 20, .75); }
-.plr-shop dialog .plr-thumb { aspect-ratio: 16 / 9; }
-.plr-shop dialog .plr-thumb svg { width: 26%; }
-.plr-shop dialog .plr-body { padding: 20px 24px 24px; gap: 12px; }
-.plr-shop dialog h3 { font-family: var(--plr-font-title); font-weight: 500; font-size: 22px; margin: 0; }
-.plr-shop dialog .plr-desc { -webkit-line-clamp: unset; font-size: 15px; }
-.plr-shop .plr-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; flex-wrap: wrap; }
-.plr-shop .plr-btn {
-  font: 600 14px var(--plr-font-body); border-radius: 8px; padding: 9px 16px; cursor: pointer;
-  border: 1px solid var(--plr-border); background: transparent; color: var(--plr-text);
-  text-decoration: none;
-}
-.plr-shop .plr-btn--primary { background: var(--plr-accent); color: #1a1405; border-color: var(--plr-accent); }
-.plr-shop .plr-close {
-  position: absolute; top: 10px; right: 10px; z-index: 1;
-  width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
-  background: rgba(13,18,36,.7); color: var(--plr-text); font-size: 18px;
-}
-.plr-shop .plr-copied { font-size: 13px; color: var(--plr-soin); align-self: center; }
+/* ---------- Panier ---------- */
+.plr-shop .plr-cart-box { background: var(--surface); border-radius: 12px; overflow: hidden; border-top: 6px solid var(--primary); display: flex; flex-direction: column; }
+.plr-shop .plr-cart-head { background: var(--header); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.plr-shop .plr-cart-head h2 { margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: 28px; line-height: 1; text-transform: uppercase; }
+.plr-shop .plr-cart-pill { background: var(--plr-gold); color: var(--plr-black); font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.plr-shop .plr-cart-close { display: none; width: 44px; height: 44px; border: 0; background: transparent; color: var(--text); font-size: 22px; cursor: pointer; }
+.plr-shop .plr-lines { padding: 8px 22px; display: flex; flex-direction: column; max-height: 50vh; overflow-y: auto; }
+.plr-shop .plr-line { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.plr-shop .plr-line-ic { width: 44px; height: 44px; border-radius: 10px; background: var(--icon-bg); display: grid; place-items: center; color: var(--nav); flex-shrink: 0; }
+.plr-shop .plr-line-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.plr-shop .plr-line-name { font-size: 14px; font-weight: 700; line-height: 1.3; }
+.plr-shop .plr-line-unit { font-size: 12px; color: var(--muted); }
+.plr-shop .plr-qty { display: flex; align-items: center; gap: 6px; }
+.plr-shop .plr-qty button { width: 36px; height: 36px; border-radius: 6px; border: 1px solid var(--muted); background: transparent; color: var(--text); cursor: pointer; font-size: 16px; line-height: 1; padding: 0; }
+.plr-shop .plr-line-end { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.plr-shop .plr-line-total { color: var(--price); font-size: 15px; font-weight: 900; white-space: nowrap; }
+.plr-shop .plr-cart-empty { padding: 32px 0; text-align: center; font-size: 14px; color: var(--text2); }
+.plr-shop .plr-recap { padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 10px; background: var(--inner); }
+.plr-shop .plr-recap-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); }
+.plr-shop .plr-recap-total { display: flex; justify-content: space-between; align-items: baseline; }
+.plr-shop .plr-recap-total span { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+.plr-shop .plr-recap-total b { font-size: 26px; font-weight: 900; color: var(--price); }
+.plr-shop .plr-recap hr { width: 100%; border: 0; height: 1px; background: var(--line); margin: 0; }
+.plr-shop .plr-rest.is-neg { color: var(--plr-error); }
+.plr-shop .plr-poor { margin: 0; font-size: 13px; color: var(--plr-error); font-weight: 700; }
+.plr-shop .plr-poor[hidden] { display: none; }
+.plr-shop .plr-note { margin: 0; font-size: 12px; line-height: 1.5; color: var(--muted); text-align: center; }
 
-@media (max-width: 560px) {
-  .plr-shop .plr-toolbar { flex-direction: column; align-items: stretch; }
-  .plr-shop .plr-controls input { flex: 1; width: auto; }
+/* Barre panier (mobile) */
+.plr-shop .plr-cartbar { display: none; }
+
+/* ---------- Confirmation ---------- */
+.plr-shop dialog { border: 0; padding: 0; background: transparent; color: var(--text); max-width: 100vw; }
+.plr-shop dialog::backdrop { background: rgba(5, 5, 5, .72); }
+.plr-shop .plr-confirm { width: min(460px, calc(100vw - 32px)); background: var(--surface); border-radius: 12px; border-top: 6px solid var(--primary); padding: 32px 28px 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.plr-shop .plr-confirm-ok { width: 72px; height: 72px; border-radius: 50%; background: var(--plr-gold); color: var(--plr-black); display: grid; place-items: center; }
+.plr-shop .plr-confirm-ok svg { width: 34px; height: 34px; stroke-width: 2.4; }
+.plr-shop .plr-confirm h2 { margin: 0; font-family: var(--plr-font-title); font-weight: 500; font-size: 30px; line-height: 1.1; text-transform: uppercase; }
+.plr-shop .plr-confirm p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text2); }
+.plr-shop .plr-confirm p b { color: var(--price); }
+.plr-shop .plr-confirm-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  /* le soleil déborde du bandeau : on coupe à la largeur de l'écran (pas de panier collant ici) */
+  .plr-shop { overflow-x: hidden; overflow-x: clip; }
+  .plr-shop .plr-main { padding-bottom: 112px; }
+  .plr-shop .plr-hero-wrap { padding-right: 0; }
+  .plr-shop .plr-sun { width: 170px; height: 170px; right: -50px; top: -64px; margin-top: 0; z-index: 0; }
+  .plr-shop .plr-hero { min-height: 200px; padding: 24px 20px; border-radius: 12px 12px 12px 48px; }
+  /* Le panier devient une feuille qui monte du bas */
+  .plr-shop .plr-cart { position: fixed; inset: 0; align-self: stretch; z-index: 30; padding: 0; display: none; flex-direction: column; justify-content: flex-end; background: rgba(5, 5, 5, .6); }
+  .plr-shop .plr-cart.is-open { display: flex; }
+  .plr-shop .plr-cart-box { border-radius: 20px 20px 0 0; max-height: 82vh; }
+  .plr-shop .plr-cart-close { display: block; }
+  .plr-shop .plr-qty button { width: 44px; height: 44px; }
+  .plr-shop .plr-cartbar { display: flex; position: fixed; left: 12px; right: 12px; bottom: 16px; z-index: 25; min-height: 60px; border: 0; border-radius: 8px; background: var(--primary); color: #FFFFFF; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 18px; cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, .4); font-size: 14px; font-weight: 700; }
+  .plr-shop .plr-cartbar[hidden] { display: none; }
+  .plr-shop .plr-cartbar b { font-size: 18px; font-weight: 900; color: var(--bar-total); }
+  .plr-shop .plr-cartbar-n { background: var(--plr-gold); color: var(--plr-black); border-radius: 999px; min-width: 22px; padding: 1px 6px; font-size: 12px; font-weight: 900; text-align: center; }
+  .plr-shop .plr-tags { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .plr-shop .plr-card { transition: none; }
+@media (max-width: 600px) {
+  /* Cartes en lignes */
+  .plr-shop .plr-grid { padding: 0; gap: 0; grid-template-columns: 1fr; }
+  .plr-shop .plr-card { flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px; border-top: 1px solid var(--line); border-radius: 0; }
+  .plr-shop .plr-card:hover { transform: none; }
+  .plr-shop .plr-thumb { width: 64px; height: 64px; flex-shrink: 0; background: none; }
+  .plr-shop .plr-thumb small, .plr-shop .plr-card .plr-chips { display: none; }
+  .plr-shop .plr-thumb-ic { width: 64px; height: 64px; border-radius: 12px; }
+  .plr-shop .plr-thumb-ic svg { width: 30px; height: 30px; }
+  .plr-shop .plr-body { padding: 0; gap: 3px; }
+  .plr-shop .plr-card h3 { font-size: 14px; }
+  .plr-shop .plr-desc { font-size: 12px; -webkit-line-clamp: 2; }
+  .plr-shop .plr-foot { padding-top: 4px; flex-wrap: wrap; }
+  .plr-shop .plr-price { font-size: 14px; }
+  .plr-shop .plr-badge { position: static; align-self: flex-start; margin-bottom: 2px; }
+  .plr-shop .plr-sort select { min-width: 0; }
 }
 </style>
 </head>
-<body style="margin:0;background:#0d1224">
+<body style="margin:0">
 
-<div class="plr-shop" id="plr-shop">
-  <div class="plr-wrap">
+<div class="plr-shop plr-dark" id="plr-shop">
+  <div class="plr-layout">
+    <main class="plr-main">
 
-    <header class="plr-hero">
-      <!-- Constellation décorative -->
-      <svg class="plr-constellation" viewBox="0 0 1100 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <g stroke="#e8c66a" stroke-opacity=".35" stroke-width="1" fill="none">
-          <polyline points="80,190 170,120 260,150 330,70 420,95"/>
-          <polyline points="700,60 780,110 860,90 940,170 1030,140"/>
-          <line x1="860" y1="90" x2="900" y2="30"/>
-        </g>
-        <g fill="#e8c66a">
-          <circle cx="80" cy="190" r="2.5"/><circle cx="170" cy="120" r="3.5"/><circle cx="260" cy="150" r="2"/>
-          <circle cx="330" cy="70" r="4"/><circle cx="420" cy="95" r="2.5"/>
-          <circle cx="700" cy="60" r="3"/><circle cx="780" cy="110" r="2"/><circle cx="860" cy="90" r="4"/>
-          <circle cx="940" cy="170" r="2.5"/><circle cx="1030" cy="140" r="3"/><circle cx="900" cy="30" r="2"/>
-        </g>
-        <g fill="#e6e9f5" fill-opacity=".5">
-          <circle cx="40" cy="40" r="1"/><circle cx="520" cy="30" r="1.2"/><circle cx="600" cy="210" r="1"/>
-          <circle cx="230" cy="40" r="1"/><circle cx="1060" cy="50" r="1.2"/><circle cx="480" cy="200" r="1"/>
-        </g>
-      </svg>
-      <div class="plr-kicker">Polaris · Comptoir des étoiles</div>
-      <h1>La Boutique</h1>
-      <p>Dépensez les étoiles gagnées en RP pour équiper votre personnage… ou pour repartir avec une babouche. On ne juge pas.</p>
-    </header>
-
-    <section class="plr-earn" aria-label="Comment gagner des étoiles">
-      <div><strong>100 ★</strong>Valider sa fiche personnage</div>
-      <div><strong>50 ★</strong>Ouvrir un sujet RP</div>
-      <div><strong>30 ★</strong>Écrire un RP</div>
-      <div><strong>50–150 ★</strong>Participer à un événement RP</div>
-    </section>
-
-    <div class="plr-toolbar">
-      <div class="plr-filters" role="group" aria-label="Filtrer par type" id="plr-filters"></div>
-      <div class="plr-controls">
-        <input type="search" id="plr-search" placeholder="Rechercher un objet…" aria-label="Rechercher un objet">
-        <select id="plr-sort" aria-label="Trier">
-          <option value="price-asc">Prix croissant</option>
-          <option value="price-desc">Prix décroissant</option>
-          <option value="name">Nom (A → Z)</option>
-          <option value="power">Points de combat</option>
-        </select>
+      <div class="plr-topbar">
+        <div class="plr-theme">
+          <svg class="plr-ic" viewBox="0 0 24 24" style="color:#FCC430" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <button type="button" class="plr-switch" id="plr-theme" aria-label="Basculer jour / nuit"></button>
+          <svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </div>
       </div>
-    </div>
 
-    <div class="plr-grid" id="plr-grid"></div>
-    <p class="plr-empty" id="plr-empty" hidden>Aucun objet ne correspond… même pas une chaussette sale.</p>
+      <!-- Bandeau : soleils Figma (img/), à héberger sur servimg puis remplacer SUN_DARK / SUN_LIGHT -->
+      <div class="plr-hero-wrap">
+        <img class="plr-sun" id="plr-sun" src="img/soleil-jaune-300.png" alt="" width="300" height="300">
+        <header class="plr-hero">
+          <svg class="plr-deco" aria-hidden="true">
+            <filter id="plr-grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/></filter>
+            <rect width="100%" height="100%" filter="url(#plr-grain)"/>
+            <g stroke="#ffffff" stroke-opacity=".08" fill="none">
+              <path d="M0 60 Q 400 30 1400 70"/><path d="M0 130 Q 400 100 1400 140"/><path d="M0 200 Q 400 170 1400 210"/>
+              <path d="M120 0 Q 140 150 100 400"/><path d="M320 0 Q 340 150 300 400"/><path d="M520 0 Q 540 150 500 400"/>
+            </g>
+            <g fill="none" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.2" transform="translate(620 150)">
+              <circle cx="60" cy="40" r="22"/><ellipse cx="60" cy="42" rx="54" ry="12" transform="rotate(-12 60 42)"/>
+            </g>
+          </svg>
+          <span class="plr-star" style="left:62%;top:30px" aria-hidden="true">✦</span>
+          <span class="plr-star" style="left:44%;top:70px;font-size:13px;color:#fff;opacity:.8" aria-hidden="true">✦</span>
+          <span class="plr-jp" aria-hidden="true">ポラリス</span>
+          <span class="plr-kicker">Comptoir des étoiles</span>
+          <h1>Boutique</h1>
+          <p>Dépense les étoiles gagnées en RP pour équiper ton personnage… ou pour repartir avec une babouche. On ne juge pas.</p>
+          <span class="plr-solde">Ton solde : <b id="plr-solde-hero"></b></span>
+        </header>
+      </div>
+
+      <section class="plr-earn" aria-label="Gagner des étoiles">
+        <span class="plr-label">Gagner des étoiles</span>
+        <span><b>+100</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Valider sa fiche personnage</span>
+        <span><b>+50</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Ouvrir un sujet RP</span>
+        <span><b>+30</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Écrire un RP</span>
+        <span><b>+50 à 150</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z"/></svg>Participer à un événement RP</span>
+      </section>
+
+      <section class="plr-tools" aria-label="Rechercher et filtrer">
+        <div class="plr-tools-row">
+          <div class="plr-search">
+            <label for="plr-q" class="plr-sr">Rechercher un objet</label>
+            <input id="plr-q" class="plr-field" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="plr-ac" autocomplete="off" spellcheck="false" placeholder="Recherche… ex. « po », « pv », « &lt;300 »">
+            <button type="button" class="plr-clear" id="plr-clear" aria-label="Effacer la recherche" hidden>×</button>
+            <svg class="plr-ic plr-loupe" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16M21 21l-4.3-4.3"/></svg>
+            <div class="plr-ac" id="plr-ac" role="listbox" aria-label="Suggestions" hidden></div>
+          </div>
+          <label class="plr-sort">
+            <span class="plr-label">Trier par</span>
+            <span class="plr-sort-box">
+              <select class="plr-field" id="plr-sort">
+                <option value="def">Par défaut</option>
+                <option value="asc">Prix croissant</option>
+                <option value="desc">Prix décroissant</option>
+                <option value="power">Points de combat</option>
+              </select>
+              <svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </label>
+        </div>
+        <div class="plr-tags" id="plr-tags" role="group" aria-label="Filtres"></div>
+        <div class="plr-results" id="plr-results" hidden>
+          <span id="plr-results-n" aria-live="polite"></span>
+          <button type="button" class="plr-btn plr-btn--tertiary" data-clear-all style="min-height:40px;font-size:13px"><span>Effacer les filtres</span></button>
+        </div>
+      </section>
+
+      <div class="plr-empty" id="plr-empty" hidden>
+        Rien ne correspond à ces filtres.<br>
+        <button type="button" class="plr-btn plr-btn--primary" data-clear-all style="margin-top:12px"><span>Tout afficher</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <div id="plr-cats"></div>
+    </main>
+
+    <!-- Panier (colonne à droite sur desktop, feuille du bas sur mobile) -->
+    <aside class="plr-cart" id="plr-cart" aria-label="Panier">
+      <div class="plr-cart-box" role="document">
+        <div class="plr-cart-head">
+          <h2>Panier</h2>
+          <span class="plr-cart-pill" id="plr-cart-n" aria-live="polite"></span>
+          <button type="button" class="plr-cart-close" id="plr-cart-close" aria-label="Fermer le panier">×</button>
+        </div>
+        <div class="plr-lines" id="plr-lines"></div>
+        <div class="plr-recap">
+          <div class="plr-recap-total"><span>Total</span><b id="plr-total"></b></div>
+          <hr>
+          <div class="plr-recap-row"><span>Ton solde</span><span id="plr-solde"></span></div>
+          <div class="plr-recap-row"><span>Solde après achat</span><b class="plr-rest" id="plr-rest"></b></div>
+          <p class="plr-poor" id="plr-poor" hidden>Pas assez d'étoiles : retire un objet ou va écrire un RP !</p>
+          <button type="button" class="plr-btn plr-btn--primary" id="plr-validate" style="margin-top:6px;width:100%;min-height:50px"><span>Valider le panier</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="plr-note">Ta commande sera postée dans le sujet boutique et validée par le staff.</p>
+        </div>
+      </div>
+    </aside>
   </div>
 
-  <dialog id="plr-dialog" aria-labelledby="plr-d-title">
-    <button class="plr-close" type="button" aria-label="Fermer" data-close>×</button>
-    <div class="plr-thumb" id="plr-d-thumb"></div>
-    <div class="plr-body">
-      <div class="plr-tags" id="plr-d-tags"></div>
-      <h3 id="plr-d-title"></h3>
-      <p class="plr-desc" id="plr-d-desc"></p>
-      <div class="plr-foot">
-        <span class="plr-price" id="plr-d-price"></span>
-        <span class="plr-stat" id="plr-d-stat"></span>
-      </div>
-      <div class="plr-actions">
-        <span class="plr-copied" id="plr-d-copied" hidden>Commande copiée !</span>
-        <button class="plr-btn" type="button" id="plr-d-copy">Copier la commande</button>
-        <a class="plr-btn plr-btn--primary" id="plr-d-order" href="#">Passer commande</a>
+  <button type="button" class="plr-cartbar" id="plr-cartbar" hidden>
+    <span style="display:flex;align-items:center;gap:10px">
+      <svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12zM6 6 5 3H2M9 20h.01M18 20h.01"/></svg>
+      Voir le panier <span class="plr-cartbar-n" id="plr-cartbar-n"></span>
+    </span>
+    <b id="plr-cartbar-total"></b>
+  </button>
+
+  <dialog id="plr-confirm" aria-labelledby="plr-confirm-t">
+    <div class="plr-confirm">
+      <div class="plr-confirm-ok"><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></div>
+      <h2 id="plr-confirm-t">Commande envoyée</h2>
+      <p id="plr-confirm-txt"></p>
+      <div class="plr-confirm-actions">
+        <button type="button" class="plr-btn plr-btn--secondary" id="plr-confirm-close"><span>Continuer mes achats</span></button>
+        <a class="plr-btn plr-btn--primary" id="plr-confirm-link" href="#"><span>Voir ma commande</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
     </div>
   </dialog>
@@ -290,203 +407,345 @@
 (function () {
   /* ------------------------------------------------------------------
      CONFIG
-     ORDER_URL : lien du sujet où les membres postent leurs achats.
+     SOLDE     : étoiles du membre (à brancher sur le champ de profil).
+     ORDER_URL : sujet où les commandes sont postées.
+     SUN_*     : soleils Figma, à héberger (servimg…) puis remplacer.
      ------------------------------------------------------------------ */
+  var SOLDE = 1500;
   var ORDER_URL = "#";
+  var SUN_DARK = "img/soleil-jaune-300.png";
+  var SUN_LIGHT = "img/soleil-noir.png";
 
   /* ------------------------------------------------------------------
-     OBJETS (source : base Notion "Boutique")
-     img : laisser vide pour afficher l'icône placeholder, sinon mettre
-           l'URL de l'image (ex. hébergée sur servimg).
+     OBJETS (source : base Notion « Boutique »)
+     [nom, types, prix, points de combat, description, badge]
+     img : renseigner ITEM_IMG["Nom"] = "url" pour remplacer l'icône.
      ------------------------------------------------------------------ */
-  var ITEMS = [
-    { name: "Couteau à beurre", types: ["Arme", "Random"], price: 150, power: 1, img: "",
-      desc: "Pas très efficace en combat mais possède une caractéristique de +1000 dans le tartinage sur du pain de mie sans croûte." },
-    { name: "La babouche", types: ["Arme", "Random"], price: 150, power: 1, img: "",
-      desc: "Pas sûre qu’elle soit à votre taille mais elle reste pratique pour foutre une grosse gifle dans la tronche de votre adversaire." },
-    { name: "Baguette de Paing", types: ["Arme", "Random"], price: 300, power: 3, img: "",
-      desc: "Relique ancestrale trouvée au fin fond de la Creuse française, dur comme de la pierre. Peut servir d’arme dans les cas extrêmes." },
-    { name: "Hache abîmée", types: ["Arme"], price: 350, power: 4, img: "",
-      desc: "Permet de couper du bois ou des têtes." },
-    { name: "Un arc avec 3 flèches", types: ["Arme"], price: 500, power: 3, img: "",
-      desc: "Si l’envie de cosplay Robin des Bois vous prend, cette arme est parfaite pour vous. À part cela, vous pouvez attaquer 3 fois grâce aux 3 flèches qui l’accompagnent." },
-    { name: "Épée en ferraille abîmée", types: ["Arme"], price: 500, power: 5, img: "", desc: "" },
-    { name: "Trompette du néant", types: ["Arme", "Random"], price: 550, power: 6, img: "",
-      desc: "Cet instrument émet un son très épique mais ne sert strictement à rien à part déranger vos voisins ou déstabiliser vos adversaires en détruisant leurs tympans." },
-    { name: "Katana de l’Abîme", types: ["Arme"], price: 800, power: 8, img: "",
-      desc: "Devenez un vrai weebo de la Japex et tranchez vos adversaires avec brio." },
-    { name: "Un Nokia 3310", types: ["Arme", "Random"], price: 3500, power: 20, img: "",
-      desc: "Relique du passé, il est inutile en tant que téléphone mais inarrêtable en tant qu’arme. On raconte qu’un seul lancer bien placé peut terrasser une armée mais… ce n’est qu’une légende, bien évidemment." },
-
-    { name: "Bouclier en bois", types: ["Défense"], price: 150, power: 2, img: "", desc: "" },
-    { name: "Bouclier en fer", types: ["Défense"], price: 300, power: 3, img: "", desc: "" },
-    { name: "Armure en métal", types: ["Défense"], price: 300, power: 3, img: "", desc: "" },
-
-    { name: "Cappuccino", types: ["Soin"], price: 100, power: 2, img: "", desc: "" },
-    { name: "Potion de soin Basico-Basic", types: ["Soin"], price: 300, power: 3, img: "",
-      desc: "C’est une potion tout ce qu’il y a de plus basique, même son goût n’a rien de particulier. C’est fade et sans saveur. Franchement, c’est décevant. Mais ça restaure un peu de vos PV." },
-    { name: "Le biscuit de Mamie", types: ["Soin"], price: 300, power: 3, img: "",
-      desc: "Croustillant et bien sucré, il vous apporte un sentiment de nostalgie et de bonheur." },
-    { name: "Le thé d’Aphrodite", types: ["Soin"], price: 450, power: 5, img: "",
-      desc: "Son parfum subtil et son goût si unique vous procurent une énergie particulière. Attention à ne pas vous brûler." },
-    { name: "Vitamine P", types: ["Soin"], price: 500, power: 5, img: "",
-      desc: "Aucun médecin ne valide son usage mais cela restaure quelques PV et c’est tout ce qui compte." },
-    { name: "Boisson énergisante PolaRIX", types: ["Soin"], price: 550, power: 6, img: "",
-      desc: "Goût étrange mais très sucrée. Provoque quelques petits tremblements mais rien de bien gravissime (sauf si vous en êtes à votre 15ème)." },
-
-    { name: "Une notice pour monter sa tour PC", types: ["Random"], price: 50, power: 0, img: "",
-      desc: "Vous n’avez pas de tour PC mais peut-être que ça peut vous servir, qui sait (personne) (encore moins la conne qui écrit ces lignes)." },
-    { name: "Mots croisés", types: ["Random"], price: 100, power: 0, img: "", desc: "Édition des années 2025." },
-    { name: "Un masque effrayant", types: ["Random"], price: 100, power: 0, img: "",
-      desc: "Ça aide à éloigner les enfants si vous les détestez." },
-    { name: "Un Tancarville de poche", types: ["Random"], price: 100, power: 0, img: "",
-      desc: "Nom donné par un peuple étrange, le reste du monde appelle ça “un étendoir”. Permet de faire sécher vos chaussettes ou vos sous-vêtements n’importe où." },
-    { name: "Une flûte à Pec", types: ["Random"], price: 150, power: 0, img: "",
-      desc: "Vous avez des souvenirs de guerre de vos cours de musique quand vous étiez petit. Permet d’enchanter votre crush et de faire grossir vos pectoraux." },
-    { name: "Un billet pour Disneyland", types: ["Random"], price: 200, power: 0, img: "", desc: "" },
-    { name: "Des cartes de tarot à l’image des Constellations", types: ["Random"], price: 300, power: 0, img: "",
-      desc: "Pour tirer l’avenir ou jouer le charlatan et gagner de la thune tel un arnaqueur." },
-    { name: "Un grimoire dans une langue inconnue", types: ["Random"], price: 600, power: 0, img: "",
-      desc: "Un ouvrage beaucoup trop poussiéreux pour en faire quoi que ce soit, la langue vous est inconnue et les dessins sont… spéciaux… serait-ce pour effectuer des rituels sataniques ?" },
-    { name: "Un trèfle à 7 feuilles", types: ["Random"], price: 600, power: 0, img: "",
-      desc: "On ignore l’origine de ce trèfle mais on suppose qu’il peut autant porter chance (ou malheur) sept fois." },
-    { name: "Carnet de l’apothicaire", types: ["Random"], price: 700, power: 0, img: "",
-      desc: "Utile pour concevoir du shit-euh pour concocter toutes sortes de potions. Incompréhensible pour des littéraires, un objet béni pour des scientifiques spécialisés en pharmaceutique." },
-    { name: "Investissement d’amélioration de QG (Dissident uniquement)", types: ["Random"], price: 2000, power: 0, img: "",
-      desc: "Votre QG est un peu miteux, mais ne vous inquiétez pas, avec Leroy Polaris et Ikeos, des axes d’amélioration sont possibles !" },
-    { name: "Coupon de réduction pour une implantation capillaire", types: ["Esthétique"], price: null, power: 0, img: "", desc: "" }
+  var CATS = [
+    { id: "arme", num: "001", label: "Armes", items: [
+      ["Couteau à beurre", ["Arme", "Random"], 150, 1, "Pas très efficace en combat mais possède une caractéristique de +1000 dans le tartinage sur du pain de mie sans croûte."],
+      ["La babouche", ["Arme", "Random"], 150, 1, "Pas sûre qu’elle soit à votre taille mais elle reste pratique pour foutre une grosse gifle dans la tronche de votre adversaire."],
+      ["Baguette de Paing", ["Arme", "Random"], 300, 3, "Relique ancestrale trouvée au fin fond de la Creuse française, dure comme de la pierre. Peut servir d’arme dans les cas extrêmes."],
+      ["Hache abîmée", ["Arme"], 350, 4, "Permet de couper du bois ou des têtes."],
+      ["Un arc avec 3 flèches", ["Arme"], 500, 3, "Si l’envie de cosplay Robin des Bois vous prend, cette arme est parfaite pour vous. Vous pouvez attaquer 3 fois grâce aux 3 flèches qui l’accompagnent."],
+      ["Épée en ferraille abîmée", ["Arme"], 500, 5, ""],
+      ["Trompette du néant", ["Arme", "Random"], 550, 6, "Cet instrument émet un son très épique mais ne sert strictement à rien à part déranger vos voisins ou déstabiliser vos adversaires en détruisant leurs tympans."],
+      ["Katana de l’Abîme", ["Arme"], 800, 8, "Devenez un vrai weebo de la Japex et tranchez vos adversaires avec brio."],
+      ["Un Nokia 3310", ["Arme", "Random"], 3500, 20, "Relique du passé, inutile en tant que téléphone mais inarrêtable en tant qu’arme. On raconte qu’un seul lancer bien placé peut terrasser une armée… mais ce n’est qu’une légende."]
+    ]},
+    { id: "defense", num: "002", label: "Défense", items: [
+      ["Bouclier en bois", ["Défense"], 150, 2, ""],
+      ["Bouclier en fer", ["Défense"], 300, 3, ""],
+      ["Armure en métal", ["Défense"], 300, 3, ""]
+    ]},
+    { id: "soin", num: "003", label: "Soins", items: [
+      ["Cappuccino", ["Soin"], 100, 2, ""],
+      ["Potion de soin Basico-Basic", ["Soin"], 300, 3, "C’est une potion tout ce qu’il y a de plus basique. C’est fade et sans saveur. Franchement, c’est décevant. Mais ça restaure un peu de vos PV."],
+      ["Le biscuit de Mamie", ["Soin"], 300, 3, "Croustillant et bien sucré, il vous apporte un sentiment de nostalgie et de bonheur."],
+      ["Le thé d’Aphrodite", ["Soin"], 450, 5, "Son parfum subtil et son goût si unique vous procurent une énergie particulière. Attention à ne pas vous brûler."],
+      ["Vitamine P", ["Soin"], 500, 5, "Aucun médecin ne valide son usage mais cela restaure quelques PV et c’est tout ce qui compte."],
+      ["Boisson énergisante PolaRIX", ["Soin"], 550, 6, "Goût étrange mais très sucrée. Provoque quelques petits tremblements mais rien de bien gravissime (sauf si vous en êtes à votre 15ème)."]
+    ]},
+    { id: "random", num: "004", label: "Objets random", items: [
+      ["Une notice pour monter sa tour PC", ["Random"], 50, 0, "Vous n’avez pas de tour PC mais peut-être que ça peut vous servir, qui sait (personne)."],
+      ["Mots croisés", ["Random"], 100, 0, "Édition des années 2025."],
+      ["Un masque effrayant", ["Random"], 100, 0, "Ça aide à éloigner les enfants si vous les détestez."],
+      ["Un Tancarville de poche", ["Random"], 100, 0, "Nom donné par un peuple étrange, le reste du monde appelle ça “un étendoir”. Permet de faire sécher vos chaussettes n’importe où."],
+      ["Une flûte à Pec", ["Random"], 150, 0, "Des souvenirs de guerre de vos cours de musique. Permet d’enchanter votre crush et de faire grossir vos pectoraux."],
+      ["Un billet pour Disneyland", ["Random"], 200, 0, ""],
+      ["Des cartes de tarot à l’image des Constellations", ["Random"], 300, 0, "Pour tirer l’avenir ou jouer le charlatan et gagner de la thune tel un arnaqueur."],
+      ["Un grimoire dans une langue inconnue", ["Random"], 600, 0, "Un ouvrage beaucoup trop poussiéreux, dans une langue inconnue, aux dessins… spéciaux. Serait-ce pour des rituels sataniques ?"],
+      ["Un trèfle à 7 feuilles", ["Random"], 600, 0, "On ignore l’origine de ce trèfle mais on suppose qu’il peut porter chance (ou malheur) sept fois."],
+      ["Carnet de l’apothicaire", ["Random"], 700, 0, "Utile pour concocter toutes sortes de potions. Incompréhensible pour des littéraires, un objet béni pour des scientifiques."],
+      ["Investissement d’amélioration de QG", ["Random"], 2000, 0, "Votre QG est un peu miteux, mais avec Leroy Polaris et Ikeos, des axes d’amélioration sont possibles !", "Dissidents"]
+    ]},
+    { id: "esth", num: "005", label: "Esthétique", items: [
+      ["Coupon de réduction pour une implantation capillaire", ["Esthétique"], null, 0, "", "Soon"]
+    ]}
   ];
+  var ITEM_IMG = {};
 
-  /* ------------------------------------------------------------------
-     TYPES : couleur, libellé de la stat et icône placeholder (SVG trait)
-     ------------------------------------------------------------------ */
-  var TYPES = {
-    "Arme": { color: "var(--plr-arme)", stat: "Attaque",
-      icon: '<path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/>' },
-    "Défense": { color: "var(--plr-defense)", stat: "Défense",
-      icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 7v10"/><path d="M8 11h8"/>' },
-    "Soin": { color: "var(--plr-soin)", stat: "Soin",
-      icon: '<path d="M10 2v7.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>' },
-    "Esthétique": { color: "var(--plr-esthetique)", stat: "Style",
-      icon: '<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>' },
-    "Random": { color: "var(--plr-random)", stat: "Bonus",
-      icon: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/><path d="M10.5 6.2c.3-.9 2.7-.9 3 .3.2.9-1.5 1.2-1.5 2"/>' }
+  var ICON = {
+    arme: "M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2",
+    defense: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM12 7v10M8 11h8",
+    soin: "M10 2v7.5L4.5 19A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-3L14 9.5V2M8.5 2h7M7 16h10",
+    random: "M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9",
+    esth: "M6 3h12l4 6-10 13L2 9zM11 3 8 9l4 13 4-13-3-6M2 9h20"
   };
-  var ORDER = ["Arme", "Défense", "Soin", "Esthétique", "Random"];
-  var STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z"/></svg>';
+  var STAR = "M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8z";
+  var STAT = { arme: "Attaque", defense: "Défense", soin: "Soin", random: "Bonus", esth: "Style" };
+  var KW = { arme: "arme armes attaque combat degats", defense: "defense protection bouclier armure", soin: "soin soins pv vie sante heal potion", random: "random fun inutile divers", esth: "esthetique style apparence look" };
+  var TAG = { arme: "Arme", defense: "Défense", soin: "Soin", random: "Random", esth: "Esthétique" };
+  /* Icônes du composant Tags (Figma : square-full / check-square) */
+  var SQ = "M21 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V21C2 21.2652 2.10536 21.5196 2.29289 21.7071C2.48043 21.8946 2.73478 22 3 22H21C21.2652 22 21.5196 21.8946 21.7071 21.7071C21.8946 21.5196 22 21.2652 22 21V3C22 2.73478 21.8946 2.48043 21.7071 2.29289C21.5196 2.10536 21.2652 2 21 2V2ZM20 20H4V4H20V20Z";
+  var CK = "M10.21 14.75C10.303 14.8437 10.4136 14.9181 10.5354 14.9689C10.6573 15.0197 10.788 15.0458 10.92 15.0458C11.052 15.0458 11.1827 15.0197 11.3046 14.9689C11.4264 14.9181 11.537 14.8437 11.63 14.75L15.71 10.67C15.8983 10.4817 16.0041 10.2263 16.0041 9.96C16.0041 9.6937 15.8983 9.4383 15.71 9.25C15.5217 9.0617 15.2663 8.95591 15 8.95591C14.7337 8.95591 14.4783 9.0617 14.29 9.25L10.92 12.63L9.71 11.41C9.5217 11.2217 9.2663 11.1159 9 11.1159C8.7337 11.1159 8.4783 11.2217 8.29 11.41C8.1017 11.5983 7.99591 11.8537 7.99591 12.12C7.99591 12.3863 8.1017 12.6417 8.29 12.83L10.21 14.75Z" + SQ;
+  var STOP = ["de", "du", "des", "le", "la", "les", "un", "une", "et", "a", "en", "au", "aux", "l", "d", "pour", "par", "pas", "sur", "dans", "avec", "vous", "votre", "vos", "qui", "que", "ce", "ca", "est", "mais", "plus"];
 
+  /* ---------- Utilitaires ---------- */
   var root = document.getElementById("plr-shop");
-  var grid = root.querySelector("#plr-grid");
-  var empty = root.querySelector("#plr-empty");
-  var search = root.querySelector("#plr-search");
-  var sort = root.querySelector("#plr-sort");
-  var filters = root.querySelector("#plr-filters");
-  var dialog = root.querySelector("#plr-dialog");
-  var state = { type: "Tous", q: "", sort: "price-asc" };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var fmt = function (n) { return n.toLocaleString("fr-FR") + " ✦"; };
+  var norm = function (s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’‘]/g, "'").toLowerCase(); };
+  var toWords = function (s) { return s.split(/[^a-z0-9]+/).filter(function (w) { return w && STOP.indexOf(w) < 0; }); };
+  var pre = function (list, w) { for (var k = 0; k < list.length; k++) if (list[k].indexOf(w) === 0) return true; return false; };
+  var svg = function (d, cls) { return '<svg class="plr-ic ' + (cls || "") + '" viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>'; };
+  var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 
-  function esc(s) {
-    return String(s).replace(/[&<>"]/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+  /* ---------- Index des objets ---------- */
+  var all = [], byName = {};
+  CATS.forEach(function (c) {
+    c.items = c.items.map(function (r) {
+      var it = { name: r[0], tags: r[1], price: r[2], power: r[3], desc: r[4] || "Description à venir.", badge: r[5] || "", cat: c };
+      it.stat = it.power ? STAT[c.id] + " +" + it.power : "";
+      it.priceLabel = it.price == null ? "Prix à définir" : fmt(it.price);
+      it.n = norm(it.name);
+      it.nt = norm(it.tags.join(" ") + " " + KW[c.id]);
+      it.nw = toWords(it.n);
+      it.aw = toWords(it.n + " " + it.nt + " " + norm(it.desc));
+      all.push(it); byName[it.name] = it;
+      return it;
     });
-  }
-  function main(item) { return TYPES[item.types[0]] || TYPES.Random; }
-  function fmt(n) { return n.toLocaleString("fr-FR"); }
-
-  function thumb(item) {
-    var t = main(item);
-    var inner = item.img
-      ? '<img src="' + esc(item.img) + '" alt="" loading="lazy">'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + t.icon + '</svg>' +
-        '<span class="plr-ph">Image à venir</span>';
-    return '<div class="plr-thumb" style="--c:' + t.color + '">' + inner + '</div>';
-  }
-  function tags(item) {
-    return item.types.map(function (ty) {
-      return '<span class="plr-tag" style="--c:' + TYPES[ty].color + '">' + ty + '</span>';
-    }).join("");
-  }
-  function price(item) {
-    return item.price == null
-      ? '<span class="plr-price is-tbd">Prix à définir</span>'
-      : '<span class="plr-price">' + STAR + fmt(item.price) + '</span>';
-  }
-  function stat(item) {
-    return item.power ? main(item).stat + ' <b>+' + item.power + '</b>' : "";
-  }
-
-  /* Filtres */
-  ["Tous"].concat(ORDER).forEach(function (ty) {
-    var n = ty === "Tous" ? ITEMS.length : ITEMS.filter(function (i) { return i.types.indexOf(ty) > -1; }).length;
-    if (!n) return;
-    var b = document.createElement("button");
-    b.type = "button"; b.className = "plr-chip"; b.dataset.type = ty;
-    b.textContent = ty + " (" + n + ")";
-    b.setAttribute("aria-pressed", ty === state.type);
-    filters.appendChild(b);
   });
-  filters.addEventListener("click", function (e) {
-    var b = e.target.closest(".plr-chip"); if (!b) return;
-    state.type = b.dataset.type;
-    filters.querySelectorAll(".plr-chip").forEach(function (c) { c.setAttribute("aria-pressed", c === b); });
-    render();
-  });
-  search.addEventListener("input", function () { state.q = search.value.trim().toLowerCase(); render(); });
-  sort.addEventListener("change", function () { state.sort = sort.value; render(); });
 
-  function sorted(list) {
-    var p = function (i) { return i.price == null ? Infinity : i.price; };
-    var by = {
-      "price-asc": function (a, b) { return p(a) - p(b); },
-      "price-desc": function (a, b) { return (b.price || 0) - (a.price || 0); },
-      "name": function (a, b) { return a.name.localeCompare(b.name, "fr"); },
-      "power": function (a, b) { return (b.power || 0) - (a.power || 0); }
-    }[state.sort];
-    return list.slice().sort(by);
+  /* ---------- État ---------- */
+  var state = { query: "", types: [], budget: false, sort: "def", closed: {}, cart: {}, ac: false, hi: 0 };
+  try { state.cart = JSON.parse(store.get("plr-cart") || "{}") || {}; } catch (e) { state.cart = {}; }
+
+  var totals = function () {
+    var total = 0, count = 0;
+    Object.keys(state.cart).forEach(function (n) { if (byName[n]) { total += byName[n].price * state.cart[n]; count += state.cart[n]; } });
+    return { total: total, count: count, rest: SOLDE - total };
+  };
+  var setQty = function (name, q) {
+    if (q > 0) state.cart[name] = q; else delete state.cart[name];
+    store.set("plr-cart", JSON.stringify(state.cart));
+    renderCats(); renderCart();
+  };
+
+  /* ---------- Thème (suit aussi la bascule du forum : html.dark) ---------- */
+  var setTheme = function (dark) {
+    root.classList.toggle("plr-dark", dark);
+    root.classList.toggle("plr-light", !dark);
+    $("plr-sun").src = dark ? SUN_DARK : SUN_LIGHT;
+    store.set("plr-theme", dark ? "dark" : "light");
+  };
+  var saved = store.get("plr-theme");
+  var html = document.documentElement;
+  setTheme(saved ? saved === "dark" : (html.classList.contains("dark") || !html.classList.length));
+  $("plr-theme").addEventListener("click", function () { setTheme(!root.classList.contains("plr-dark")); });
+  var lastDark = html.classList.contains("dark");
+  if (window.MutationObserver) new MutationObserver(function () {
+    var d = html.classList.contains("dark");
+    if (d !== lastDark) { lastDark = d; setTheme(d); }
+  }).observe(html, { attributes: true, attributeFilter: ["class"] });
+
+  /* ---------- Recherche & filtres ---------- */
+  var query = function () {
+    var q = norm(state.query).trim();
+    var pm = q.match(/^(?:<=?|≤|max|moins de|-)\s*(\d+)/);
+    var text = pm ? "" : q;
+    var words = toWords(text);
+    if (!words.length && text.length >= 2) words = [text];
+    return { text: text, words: words, priceMax: pm ? +pm[1] : null };
+  };
+  var match = function (it, Q, rest) {
+    if (state.types.length && !it.tags.some(function (g) { return state.types.indexOf(g) >= 0; })) return false;
+    if ((Q.priceMax != null || state.budget) && it.price == null) return false;
+    if (Q.priceMax != null && it.price > Q.priceMax) return false;
+    if (state.budget && !state.cart[it.name] && it.price > rest) return false;
+    if (Q.text.length >= 2) for (var i = 0; i < Q.words.length; i++) if (!pre(it.aw, Q.words[i])) return false;
+    return true;
+  };
+  var SORTERS = {
+    asc: function (a, b) { return (a.price == null ? 1e9 : a.price) - (b.price == null ? 1e9 : b.price); },
+    desc: function (a, b) { return (b.price || 0) - (a.price || 0); },
+    power: function (a, b) { return (b.power || 0) - (a.power || 0); }
+  };
+
+  /* ---------- Rendu : catégories & cartes ---------- */
+  function cardHTML(it) {
+    var q = state.cart[it.name] || 0;
+    var media = ITEM_IMG[it.name]
+      ? '<img src="' + esc(ITEM_IMG[it.name]) + '" alt="" loading="lazy">'
+      : '<div class="plr-thumb-ic">' + svg(ICON[it.cat.id]) + '</div><small>Image à venir</small>';
+    var action;
+    if (it.price == null) action = '<span class="plr-soon">Bientôt dispo</span>';
+    else if (!q) action = '<button type="button" class="plr-btn plr-btn--primary" data-add="' + esc(it.name) + '" aria-label="Ajouter ' + esc(it.name) + ' au panier" style="padding:0 16px;gap:8px;font-size:14px">' + svg("M12 5v14M5 12h14") + '<span>Ajouter</span></button>';
+    else action = '<div class="plr-step" role="group" aria-label="Quantité de ' + esc(it.name) + '"><button type="button" data-dec="' + esc(it.name) + '" aria-label="Retirer un ' + esc(it.name) + '">−</button><output>' + q + '</output><button type="button" class="plr-plus" data-add="' + esc(it.name) + '" aria-label="Ajouter un ' + esc(it.name) + '">+</button></div>';
+    return '<article class="plr-card">' +
+      (it.badge ? '<span class="plr-badge">' + esc(it.badge) + '</span>' : '') +
+      '<div class="plr-thumb">' + media + '</div>' +
+      '<div class="plr-body"><div class="plr-chips">' + it.tags.map(function (t) { return '<span class="plr-chip">' + esc(t) + '</span>'; }).join("") + '</div>' +
+      '<h3>' + esc(it.name) + '</h3><p class="plr-desc">' + esc(it.desc) + '</p>' +
+      '<div class="plr-foot"><div><span class="plr-price">' + it.priceLabel + '</span><span class="plr-stat">' + it.stat + '</span></div>' + action + '</div></div></article>';
   }
-
-  function render() {
-    var list = ITEMS.filter(function (i) {
-      return (state.type === "Tous" || i.types.indexOf(state.type) > -1) &&
-        (!state.q || (i.name + " " + i.desc).toLowerCase().indexOf(state.q) > -1);
+  function renderCats() {
+    var Q = query(), rest = totals().rest;
+    var filtering = Q.text.length >= 2 || Q.priceMax != null || state.types.length > 0 || state.budget;
+    var count = 0, html = "";
+    CATS.forEach(function (c) {
+      var items = c.items.filter(function (it) { return match(it, Q, rest); });
+      if (SORTERS[state.sort]) items = items.slice().sort(SORTERS[state.sort]);
+      if (!items.length) return;
+      count += items.length;
+      var open = filtering || !state.closed[c.id];
+      html += '<section class="plr-cat"><button type="button" class="plr-cat-head" data-toggle="' + c.id + '" aria-expanded="' + open + '">' +
+        '<span><span class="plr-cat-title">' + c.num + '. ' + esc(c.label) + '</span><span class="plr-cat-count">' + items.length + ' objet' + (items.length > 1 ? 's' : '') + '</span></span>' +
+        svg("m6 9 6 6 6-6", "plr-chev") + '</button>' +
+        (open ? '<div class="plr-grid">' + items.map(cardHTML).join("") + '</div>' : '') + '</section>';
     });
-    grid.innerHTML = sorted(list).map(function (i) {
-      return '<button type="button" class="plr-card" data-i="' + ITEMS.indexOf(i) + '">' +
-        thumb(i) +
-        '<div class="plr-body"><div class="plr-tags">' + tags(i) + '</div>' +
-        '<h3>' + esc(i.name) + '</h3>' +
-        (i.desc ? '<p class="plr-desc">' + esc(i.desc) + '</p>' : '') +
-        '<div class="plr-foot">' + price(i) + '<span class="plr-stat">' + stat(i) + '</span></div>' +
-        '</div></button>';
-    }).join("");
-    empty.hidden = list.length > 0;
+    $("plr-cats").innerHTML = html;
+    $("plr-empty").hidden = count > 0;
+    $("plr-results").hidden = !(filtering || state.sort !== "def");
+    $("plr-results-n").textContent = count + (count > 1 ? " objets trouvés" : " objet trouvé");
+    renderTags();
   }
 
-  /* Fiche détail */
-  var current = null;
-  grid.addEventListener("click", function (e) {
-    var c = e.target.closest(".plr-card"); if (!c) return;
-    current = ITEMS[+c.dataset.i];
-    dialog.querySelector("#plr-d-thumb").outerHTML = thumb(current).replace('class="plr-thumb"', 'class="plr-thumb" id="plr-d-thumb"');
-    dialog.querySelector("#plr-d-tags").innerHTML = tags(current);
-    dialog.querySelector("#plr-d-title").textContent = current.name;
-    dialog.querySelector("#plr-d-desc").textContent = current.desc || "Description à venir.";
-    dialog.querySelector("#plr-d-price").outerHTML = price(current).replace('class="plr-price', 'id="plr-d-price" class="plr-price');
-    dialog.querySelector("#plr-d-stat").innerHTML = stat(current);
-    dialog.querySelector("#plr-d-order").href = ORDER_URL;
-    dialog.querySelector("#plr-d-copied").hidden = true;
-    dialog.showModal();
+  /* ---------- Rendu : Tags (filtres à choix multiple) ---------- */
+  function renderTags() {
+    var tagIcon = function (on) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + (on ? CK : SQ) + '"/></svg>'; };
+    var html = '<button type="button" class="plr-tag" data-budget aria-pressed="' + state.budget + '">' + tagIcon(state.budget) + '<span>Dans mon budget</span></button>';
+    CATS.forEach(function (c) {
+      var t = TAG[c.id], on = state.types.indexOf(t) >= 0;
+      var n = all.filter(function (it) { return it.tags.indexOf(t) >= 0; }).length;
+      html += '<button type="button" class="plr-tag" data-type="' + t + '" aria-pressed="' + on + '">' + tagIcon(on) + '<span>' + esc(c.label) + '</span><span class="plr-count">' + n + '</span></button>';
+    });
+    $("plr-tags").innerHTML = html;
+  }
+
+  /* ---------- Rendu : panier ---------- */
+  function renderCart() {
+    var T = totals();
+    $("plr-cart-n").textContent = T.count + " objet(s)";
+    $("plr-lines").innerHTML = T.count ? Object.keys(state.cart).filter(function (n) { return byName[n]; }).map(function (n) {
+      var it = byName[n], q = state.cart[n];
+      return '<div class="plr-line"><div class="plr-line-ic">' + svg(ICON[it.cat.id]) + '</div>' +
+        '<div class="plr-line-main"><span class="plr-line-name">' + esc(n) + '</span><span class="plr-line-unit">' + fmt(it.price) + ' × ' + q + '</span>' +
+        '<div class="plr-qty"><button type="button" data-dec="' + esc(n) + '" aria-label="Retirer un ' + esc(n) + '">−</button><b>' + q + '</b><button type="button" data-add="' + esc(n) + '" aria-label="Ajouter un ' + esc(n) + '">+</button></div></div>' +
+        '<div class="plr-line-end"><b class="plr-line-total">' + fmt(it.price * q) + '</b><button type="button" class="plr-btn plr-btn--tertiary" data-remove="' + esc(n) + '" style="min-height:32px;font-size:12px"><span>Retirer</span></button></div></div>';
+    }).join("") : '<p class="plr-cart-empty">Ton panier est vide.<br>Même pas une chaussette sale.</p>';
+    $("plr-total").textContent = fmt(T.total);
+    $("plr-solde").textContent = fmt(SOLDE);
+    $("plr-solde-hero").textContent = fmt(SOLDE);
+    $("plr-rest").textContent = fmt(T.rest);
+    $("plr-rest").classList.toggle("is-neg", T.rest < 0);
+    $("plr-poor").hidden = T.rest >= 0;
+    $("plr-validate").disabled = !T.count || T.rest < 0;
+    $("plr-cartbar").hidden = !T.count;
+    $("plr-cartbar-n").textContent = T.count;
+    $("plr-cartbar-total").textContent = fmt(T.total);
+  }
+
+  /* ---------- Autocomplétion (dès 2 lettres) ---------- */
+  var sugg = [];
+  function buildSugg() {
+    var Q = query(), t = Q.text, out = [];
+    var score = function (it) {
+      if (it.n.indexOf(t) === 0) return 0;
+      if (pre(it.nw, t)) return 1;
+      if (pre(it.nw, Q.words[0]) && match(it, Q, Infinity)) return 2;
+      if (pre(it.nt.split(" "), t)) return 3;
+      return match(it, Q, Infinity) ? 4 : -1;
+    };
+    if (Q.priceMax != null) {
+      var nb = all.filter(function (it) { return it.price != null && it.price <= Q.priceMax; }).length;
+      out.push({ icon: STAR, html: "Objets à " + fmt(Q.priceMax) + " ou moins", sub: "Filtre de prix", right: nb + " obj.", act: function () { closeAc(); } });
+    } else if (t.length >= 2) {
+      CATS.forEach(function (c) {
+        var hit = norm(c.label).indexOf(t) === 0 || KW[c.id].split(" ").some(function (w) { return w.indexOf(t) === 0; });
+        if (hit && out.length < 2) out.push({ icon: ICON[c.id], html: "Toute la catégorie <mark>" + esc(c.label) + "</mark>", sub: c.items.length + " objets", right: "",
+          act: function () { state.types = [TAG[c.id]]; state.query = ""; $("plr-q").value = ""; closeAc(); renderCats(); } });
+      });
+      all.map(function (it) { return { it: it, s: score(it) }; })
+        .filter(function (x) { return x.s >= 0; })
+        .sort(function (a, b) { return a.s - b.s || (a.it.price || 0) - (b.it.price || 0); })
+        .slice(0, 6)
+        .forEach(function (x) {
+          var it = x.it, i = it.n.indexOf(t) === 0 ? 0 : (" " + it.n).search(new RegExp("[^a-z0-9]" + t.replace(/[^a-z0-9 ]/g, "\\$&")));
+          var label = i >= 0 ? esc(it.name.slice(0, i)) + "<mark>" + esc(it.name.slice(i, i + t.length)) + "</mark>" + esc(it.name.slice(i + t.length)) : esc(it.name);
+          out.push({ icon: ICON[it.cat.id], html: label, sub: it.cat.label + (it.stat ? " · " + it.stat : "") + (i < 0 ? (x.s === 3 ? " · par catégorie" : " · trouvé dans la description") : ""), right: it.priceLabel,
+            act: function () { state.query = it.name; $("plr-q").value = it.name; closeAc(); renderCats(); } });
+        });
+    }
+    return out;
+  }
+  function renderAc() {
+    var Q = query(), box = $("plr-ac"), input = $("plr-q");
+    var open = state.ac && (Q.text.length >= 2 || Q.priceMax != null);
+    sugg = open ? buildSugg() : [];
+    if (state.hi >= sugg.length) state.hi = 0;
+    box.hidden = !open;
+    input.setAttribute("aria-expanded", open);
+    input.setAttribute("aria-activedescendant", open && sugg[state.hi] ? "plr-s-" + state.hi : "");
+    if (!open) return;
+    box.innerHTML = sugg.map(function (s, i) {
+      return '<button type="button" class="plr-opt" role="option" id="plr-s-' + i + '" aria-selected="' + (i === state.hi) + '" data-sugg="' + i + '">' +
+        '<span class="plr-opt-ic">' + svg(s.icon) + '</span><span class="plr-opt-txt"><span>' + s.html + '</span><small>' + esc(s.sub) + '</small></span>' +
+        '<span class="plr-opt-price">' + esc(s.right) + '</span></button>';
+    }).join("") + (sugg.length ? "" : '<p class="plr-ac-msg">Aucun objet ne correspond. Même pas une chaussette sale.</p>') +
+      '<p class="plr-ac-help">↑ ↓ naviguer · Entrée choisir · Échap fermer · « &lt;300 » = prix max</p>';
+  }
+  function closeAc() { state.ac = false; state.hi = 0; renderAc(); $("plr-clear").hidden = !state.query; }
+
+  var input = $("plr-q");
+  input.addEventListener("input", function () { state.query = input.value; state.ac = true; state.hi = 0; $("plr-clear").hidden = !state.query; renderAc(); renderCats(); });
+  input.addEventListener("focus", function () { state.ac = true; renderAc(); });
+  input.addEventListener("blur", function () { state.ac = false; renderAc(); });
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!sugg.length) return;
+      state.ac = true; state.hi = (state.hi + (e.key === "ArrowDown" ? 1 : -1) + sugg.length) % sugg.length; renderAc();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (state.ac && sugg[state.hi]) sugg[state.hi].act(); else closeAc();
+    } else if (e.key === "Escape") { closeAc(); }
   });
-  dialog.addEventListener("click", function (e) {
-    if (e.target === dialog || e.target.hasAttribute("data-close")) dialog.close();
+  /* mousedown + preventDefault : le champ garde le focus pendant le choix */
+  $("plr-ac").addEventListener("mousedown", function (e) {
+    var b = e.target.closest("[data-sugg]"); if (!b) return;
+    e.preventDefault(); sugg[+b.dataset.sugg].act();
   });
-  dialog.querySelector("#plr-d-copy").addEventListener("click", function () {
-    var txt = "[b]Commande boutique[/b]\nObjet : " + current.name +
-      "\nPrix : " + (current.price == null ? "à définir" : current.price + " étoiles") + "\nPersonnage : ";
-    var done = function () { dialog.querySelector("#plr-d-copied").hidden = false; };
-    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, function () {});
+  $("plr-clear").addEventListener("click", function () { state.query = ""; input.value = ""; closeAc(); renderCats(); input.focus(); });
+  $("plr-sort").addEventListener("change", function (e) { state.sort = e.target.value; renderCats(); });
+
+  /* ---------- Clics (délégation) ---------- */
+  root.addEventListener("click", function (e) {
+    var t = e.target.closest("button, a"); if (!t || !root.contains(t)) return;
+    var d = t.dataset;
+    if (d.add != null) setQty(d.add, (state.cart[d.add] || 0) + 1);
+    else if (d.dec != null) setQty(d.dec, (state.cart[d.dec] || 0) - 1);
+    else if (d.remove != null) setQty(d.remove, 0);
+    else if (d.toggle) { state.closed[d.toggle] = !state.closed[d.toggle]; renderCats(); }
+    else if (d.type) { var i = state.types.indexOf(d.type); if (i < 0) state.types.push(d.type); else state.types.splice(i, 1); renderCats(); }
+    else if (d.budget != null) { state.budget = !state.budget; renderCats(); }
+    else if (d.clearAll != null) { state.query = ""; input.value = ""; state.types = []; state.budget = false; state.sort = "def"; $("plr-sort").value = "def"; closeAc(); renderCats(); }
   });
 
-  render();
+  /* ---------- Panier mobile (feuille du bas) ---------- */
+  var cart = $("plr-cart");
+  $("plr-cartbar").addEventListener("click", function () { cart.classList.add("is-open"); $("plr-cart-close").focus(); });
+  $("plr-cart-close").addEventListener("click", function () { cart.classList.remove("is-open"); });
+  cart.addEventListener("click", function (e) { if (e.target === cart) cart.classList.remove("is-open"); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") cart.classList.remove("is-open"); });
+
+  /* ---------- Validation ---------- */
+  $("plr-validate").addEventListener("click", function () {
+    var T = totals(); if (!T.count || T.rest < 0) return;
+    $("plr-confirm-txt").innerHTML = "Ta commande de " + T.count + " objet(s) pour <b>" + fmt(T.total) + "</b> a été postée. Le staff la validera et mettra ta fiche à jour.";
+    $("plr-confirm-link").href = ORDER_URL;
+    cart.classList.remove("is-open");
+    var dlg = $("plr-confirm");
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  });
+  $("plr-confirm-close").addEventListener("click", function () {
+    state.cart = {}; store.set("plr-cart", "{}");
+    $("plr-confirm").close ? $("plr-confirm").close() : $("plr-confirm").removeAttribute("open");
+    renderCats(); renderCart();
+  });
+
+  renderCats(); renderCart();
 })();
 </script>
 </body>
