@@ -1,8 +1,13 @@
-# Génère animations/100-questions/code-reponse.html : le code à coller dans une
-# réponse du Flood. Il utilise le composant du forum <x-post-admin> (comme les
-# sujets d'event) : chaque <template data-value="post:…"> remplit une zone.
-# Forumactif transforme les retours à la ligne en <br /> : dans post:texte,
-# une ligne du code = une ligne affichée.
+# Génère animations/100-questions/code-reponse.html (le code à coller dans une
+# réponse du Flood) et annonce.html (le premier message du sujet).
+#
+# Réponse : thème « carte du ciel », style perso dans un <style> en fin de code.
+# Contraintes Forumactif :
+# - chaque retour à la ligne devient <br /> : le <style> tient sur UNE ligne
+#   (sinon des <br /> cassent le CSS) et le CSS masque les <br /> placés entre
+#   les blocs ; une ligne du code = une question ;
+# - le script du forum (String.f2p) remplace [b] [i] [u] [s] [tw] : le CSS n'en contient pas ;
+# - tout est préfixé .q100 ; le mode nuit suit [data-theme=dark] du forum.
 import sys
 
 L = "LONG"  # question à pleine largeur
@@ -56,24 +61,54 @@ TOTAL = sum(len(s[2]) for s in SECTIONS)
 
 ACCENT = "text-main-blue dark:text-secondary-gold"
 
+CSS = """
+.q100{--bg:#F6F6F6;--band:#0C9BC3;--sun:#0F0F0F;--ink:#0F0F0F;--muted:#646464;--accent:#086985;--star:#0C9BC3;--line:rgba(12,155,195,.45);--dot:rgba(12,155,195,.22);--onband:#0F0F0F;position:relative;max-width:720px;margin:0 auto;overflow:hidden;border-radius:12px;background:var(--bg);color:var(--ink);font-family:lato,sans-serif;font-size:14px;line-height:1.4;counter-reset:q100q q100c}
+[data-theme=dark] .q100{--bg:#1A1A1A;--band:#591696;--sun:#FCC430;--ink:#F6F6F6;--muted:#AFAFAF;--accent:#FCC430;--star:#FCC430;--line:rgba(167,113,217,.55);--dot:rgba(246,246,246,.16);--onband:#F6F6F6}
+.q100 br{display:none}
+.q100-ch p br{display:inline}
+.q100-head{position:relative;overflow:hidden;padding:36px 64px 32px 32px;border-radius:0 0 0 72px;background-color:var(--band);background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:32px 32px;color:var(--onband)}
+.q100-sun{position:absolute;top:-96px;right:-96px;width:290px;height:290px;border-radius:50%;background:radial-gradient(circle,var(--sun) 0 26%,var(--band) 26.5% 34%,transparent 34.5%),repeating-conic-gradient(var(--sun) 0 2deg,transparent 2deg 9deg);animation:q100-spin 40s linear infinite}
+@keyframes q100-spin{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.q100-sun{animation:none}}
+.q100-jp{position:absolute;right:20px;bottom:22px;writing-mode:vertical-rl;font-size:12px;letter-spacing:8px;color:#fff;opacity:.6}
+.q100-head p{position:relative;margin:0}
+.q100-kicker{display:inline-block;padding:4px 12px;border-radius:32px;background:#FCC430;color:#0F0F0F;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.q100-head .q100-title{margin-top:16px;font-family:motesar,serif;font-size:clamp(44px,10vw,76px);line-height:.88;text-transform:uppercase;color:#fff}
+.q100-head .q100-name{margin-top:18px;font-size:20px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.q100-head .q100-info{margin-top:2px;font-size:13px;font-weight:700;opacity:.85}
+.q100-head .q100-quote{max-width:420px;margin-top:16px;font-style:italic}
+.q100-body{padding:4px 32px 28px;background-image:radial-gradient(var(--dot) 1px,transparent 1.6px),radial-gradient(var(--dot) 1px,transparent 1.6px);background-size:47px 47px,71px 71px;background-position:0 0,23px 31px}
+.q100-ch{padding-top:40px;counter-increment:q100c}
+.q100-qs{columns:2 240px;column-gap:36px}
+.q100-h{position:relative;margin:0 0 22px;padding-bottom:10px;border-bottom:2px solid var(--line);font-family:motesar,serif;font-size:30px;line-height:1;text-transform:uppercase}
+.q100-h:before{content:"Chapitre " counter(q100c,upper-roman) "  ✦";display:block;margin-bottom:8px;font-family:lato,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent)}
+.q100-h:after{content:counter(q100c,upper-roman);position:absolute;right:0;bottom:-4px;font-size:92px;line-height:.8;color:transparent;-webkit-text-stroke:1px var(--line);pointer-events:none}
+.q100-ch p{position:relative;margin:0 0 0 6px;padding:0 0 18px 20px;border-left:1px dashed var(--line);break-inside:avoid;counter-increment:q100q}
+.q100-ch p:before{content:"✦";position:absolute;left:-7px;top:-1px;font-size:13px;line-height:1;color:var(--star);background:var(--bg)}
+.q100-ch p b{display:block;margin-bottom:3px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.q100-ch p b:before{content:counter(q100q,q100-pad) "  ";color:var(--accent);letter-spacing:1px}
+@counter-style q100-pad{system:extends decimal;pad:3 "0"}
+.q100-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;padding:14px 32px 20px;border-top:1px solid var(--line);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+@media (max-width:600px){.q100-head{padding:28px 48px 26px 20px;border-radius:0 0 0 48px}.q100-sun{top:-70px;right:-70px;width:180px;height:180px}.q100-body{padding:0 20px 24px}.q100-foot{padding:12px 20px 18px}}
+"""
+css = "".join(l.strip() for l in CSS.strip().splitlines())
+for bad in ("[b]", "[i]", "[u]", "[s]", "[tw]", "\n"):
+    assert bad not in css.lower(), bad
+
 lines = []
 w = lines.append
-w('<x-post-admin><template data-value="post:titre">100 questions</template>'
-  '<template data-value="post:sous-titre">Nom du personnage · âge · métier · groupe</template>'
-  f'<template data-value="post:texte"><span class="{ACCENT}">« Une citation de ton personnage. »</span>')
-w('')
-body = []
-for i, (title, _icon, qs) in enumerate(SECTIONS, 1):
-    if i > 1:
-        body.append('')
-    body.append(f'<span class="Title:H4 {ACCENT}">✦ {i:03d} · {title}</span>')
+w('<div class="q100"><div class="q100-head"><div class="q100-sun"></div><span class="q100-jp">ポラリス</span>'
+  '<p class="q100-kicker">✦ Flood · 100 questions</p><p class="q100-title">Carte du ciel</p>'
+  '<p class="q100-name">Nom du personnage</p><p class="q100-info">âge · métier · groupe</p>'
+  '<p class="q100-quote">« Une citation de ton personnage. »</p></div><div class="q100-body">')
+for title, _icon, qs in SECTIONS:
+    w(f'<div class="q100-ch"><div class="q100-h">{title}</div><div class="q100-qs">')
     for q in qs:
         label = q[0] if isinstance(q, tuple) else q
-        body.append(f'<b>{label} :</b> …')
-body[-1] += '</template>'
-lines += body
-lines.append('<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Crédits</div>'
-             '&#10022; Avatar : …</template></x-post-admin>')
+        w(f'<p><b>{label}</b>…</p>')
+    w('</div></div>')
+w('</div><div class="q100-foot"><span>✦ Fin de la transmission</span><span>Avatar : …</span></div></div>')
+w(f'<style>{css}</style>')
 sys.stdout.write("\n".join(lines))
 print(TOTAL, file=sys.stderr)
 
@@ -81,8 +116,8 @@ print(TOTAL, file=sys.stderr)
 # ---------------------------------------------------------------------------
 # Message d'annonce du sujet (annonce.html), qui contient le code de réponse.
 # Le code est dans un <textarea> écrit sur UNE seule ligne :
-# - un [code] ne marche pas : le forum transforme son texte en vrai <x-post-admin>
-#   (String.f2p remplace &lt; par <) avant d'en faire un textarea ;
+# - un [code] ne marche pas : le script du forum (String.f2p remplace &lt; par <)
+#   transforme son texte en vrai HTML avant d'en faire un textarea ;
 # - dans un <textarea>, les balises restent du texte ; les retours à la ligne sont
 #   écrits &#13; (Forumactif ne les change pas en <br />, et f2p ne touche que \n).
 import html as _html
@@ -107,7 +142,7 @@ annonce = "\n".join([
     '&#10022; Clique dans le cadre ci-dessous, sélectionne tout (Ctrl + A ou Cmd + A) et copie',
     '&#10022; Colle le code dans une réponse à ce sujet',
     '&#10022; Remplace chaque « … » par ta réponse, sur la même ligne',
-    '&#10022; Complète le sous-titre, la citation et les crédits',
+    '&#10022; Complète le nom, les infos, la citation et l’avatar en bas',
     zone + '</template>',
     '<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Informations importantes</div>'
     '&#10022; Un message par personnage, les multicomptes sont les bienvenus<br />'
