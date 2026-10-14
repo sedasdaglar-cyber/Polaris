@@ -289,8 +289,9 @@ Toute action qui dépense des points passe par un **récapitulatif** avant la va
 - deux actions : **Annuler** (secondaire) / **Je valide définitivement mon panier** (primaire).
 
 Écran de confirmation ensuite : ce qui va se passer (« envoyée au staff »), **où suivre** la commande
-(« ton profil, onglet Inventaire »), puis trois sorties : **Voir mon inventaire →** (primaire),
-**Continuer mes achats** (secondaire), **Revenir sur Polaris** (tertiaire).
+(« ton profil, onglet Inventaire »), puis les sorties :
+- **côte à côte**, même largeur : **Continuer mes achats** (secondaire) et **Voir mon inventaire →** (primaire, à droite) ;
+- **en dessous, en dernier** : **Revenir sur Polaris** (tertiaire, centré).
 
 ### 5.14 Couleurs des types d'objets
 

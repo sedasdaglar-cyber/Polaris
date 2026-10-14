@@ -278,6 +278,9 @@
 .plr-shop .plr-confirm p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text2); }
 .plr-shop .plr-confirm p b { color: var(--price); }
 .plr-shop .plr-confirm-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+/* Confirmation : 2 actions principales côte à côte, retour au forum en dessous */
+.plr-shop .plr-confirm-main { width: 100%; flex-wrap: nowrap; }
+.plr-shop .plr-confirm-main .plr-btn { flex: 1 1 0; min-width: 0; padding: 0 14px; white-space: normal; text-align: center; line-height: 1.2; min-height: 48px; }
 .plr-shop .plr-recap-modal { width: min(520px, calc(100vw - 32px)); text-align: left; align-items: stretch; }
 .plr-shop .plr-recap-modal h2 { text-align: left; }
 .plr-shop .plr-recap-who { padding: 12px 14px; border-radius: 10px; background: var(--inner); }
@@ -497,11 +500,11 @@
       <h2 id="plr-confirm-t">Commande envoyée</h2>
       <p id="plr-confirm-txt"></p>
       <p class="plr-inv-note">Pour suivre l'état de ta commande, consulte ton profil, onglet <b>« Inventaire »</b>.</p>
-      <div class="plr-confirm-actions">
-        <a class="plr-btn plr-btn--primary" id="plr-confirm-link" href="#"><span>Voir mon inventaire</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="plr-confirm-actions plr-confirm-main">
         <button type="button" class="plr-btn plr-btn--secondary" id="plr-confirm-close"><span>Continuer mes achats</span></button>
-        <a class="plr-btn plr-btn--tertiary" id="plr-forum-link" href="/"><span>Revenir sur Polaris</span></a>
+        <a class="plr-btn plr-btn--primary" id="plr-confirm-link" href="#"><span>Voir mon inventaire</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
+      <a class="plr-btn plr-btn--tertiary" id="plr-forum-link" href="/"><span>Revenir sur Polaris</span></a>
     </div>
   </dialog>
 </div>
