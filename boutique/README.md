@@ -18,7 +18,11 @@ garde le header du forum).
 ## À configurer (en haut du `<script>`)
 - `PLAYER` : nom du personnage, avatar et points du membre (démo : « Nom du personnage », 1 500 ✦).
   Sur Forumactif, le pseudo et l'avatar sont lus automatiquement depuis `_userdata` ; les points restent à brancher.
-- `ORDER_URL` : sujet où les commandes sont postées.
+- `INVENTORY_URL` : profil du personnage, onglet « Inventaire » (bouton « Voir mon inventaire » après commande).
+  Par défaut, le profil du membre connecté (`/u` + id via `_userdata`) : ajouter l'ancre ou le paramètre de l'onglet.
+- `FORUM_URL` : lien « Revenir sur Polaris » (par défaut `/`).
+- L'envoi réel de la commande au staff (message dans un sujet, MP…) reste à brancher au clic sur
+  « Je valide définitivement mon panier ».
 - `SUN_DARK` / `SUN_LIGHT` : héberger `img/soleil-jaune-300.png` et `img/soleil-noir.png`
   (servimg…) puis remplacer les chemins, ainsi que le `src` de `#plr-sun`.
 - `META["Nom de l'objet"]` : reprend les colonnes Notion de la base « Boutique » :

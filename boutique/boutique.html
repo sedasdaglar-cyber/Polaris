@@ -53,6 +53,7 @@
   --nav: var(--plr-gold); --price: var(--plr-gold); --icon-bg: rgba(252, 196, 48, .12);
   --text: var(--plr-white); --text2: var(--plr-gray); --muted: #AFAFAF; --line: #2A2A2A;
   --tag-bg: rgba(133, 99, 255, .18); --tag-text: #BB8FE6;
+  --t-arme: #F07070; --t-defense: #3DB8E0; --t-soin: #3CC491; --t-random: #E8A23A; --t-esth: #C784E8;
   --field: var(--plr-dark-gray); --field-text: var(--plr-white);
   --kicker: var(--plr-gold); --banner-text: #FFFFFF; --bar-total: var(--plr-gold);
   --banner: radial-gradient(120% 140% at 85% 10%, #8563FF 0%, var(--plr-purple) 45%, #2a0a4a 100%);
@@ -64,6 +65,7 @@
   --nav: var(--plr-blue); --price: #086985; --icon-bg: #D3ECF8;
   --text: var(--plr-black); --text2: #3A3A3A; --muted: var(--plr-mid-gray); --line: #DADFE5;
   --tag-bg: #D3ECF8; --tag-text: #086985;
+  --t-arme: #B42D2D; --t-defense: #0A6E8E; --t-soin: #1C6F52; --t-random: #8A5700; --t-esth: #7A3BA0;
   --field: #FFFFFF; --field-text: var(--plr-black);
   --kicker: var(--plr-black); --banner-text: var(--plr-black); --bar-total: #FFFFFF;
   --banner: radial-gradient(120% 140% at 85% 10%, var(--plr-light-blue) 0%, var(--plr-blue) 55%, #076f8c 100%);
@@ -212,12 +214,16 @@
 .plr-shop .plr-card.is-soldout { opacity: .55; }
 .plr-shop .plr-card.is-soldout .plr-badge { background: var(--plr-error); color: #FFFFFF; }
 .plr-shop .plr-qty button:disabled { opacity: .35; cursor: not-allowed; }
+.plr-shop .plr-chip--arme { --c: var(--t-arme); } .plr-shop .plr-chip--defense { --c: var(--t-defense); } .plr-shop .plr-chip--soin { --c: var(--t-soin); }
+.plr-shop .plr-chip--random { --c: var(--t-random); } .plr-shop .plr-chip--esth { --c: var(--t-esth); }
+.plr-shop .plr-chip[class*="plr-chip--"] { color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
+.plr-shop .plr-bonus { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 900; color: var(--c, var(--text)); }
+.plr-shop .plr-bonus svg { width: 16px; height: 16px; stroke-width: 2; }
 .plr-shop .plr-chip { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--tag-text); background: var(--tag-bg); padding: 3px 8px; border-radius: 999px; }
 .plr-shop .plr-card h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
 .plr-shop .plr-desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text2); }
 .plr-shop .plr-foot { margin-top: auto; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .plr-shop .plr-price { color: var(--price); font-size: 18px; font-weight: 900; }
-.plr-shop .plr-stat { display: block; font-size: 12px; color: var(--muted); }
 .plr-shop .plr-soon { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 .plr-shop .plr-step { display: inline-flex; align-items: center; gap: 4px; background: var(--inner); border: 2px solid var(--primary); border-radius: 6px; padding: 2px; }
 .plr-shop .plr-step button { width: 38px; height: 38px; border-radius: 4px; border: 0; background: transparent; color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer; padding: 0; }
@@ -265,6 +271,18 @@
 .plr-shop .plr-confirm p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text2); }
 .plr-shop .plr-confirm p b { color: var(--price); }
 .plr-shop .plr-confirm-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+.plr-shop .plr-recap-modal { width: min(520px, calc(100vw - 32px)); text-align: left; align-items: stretch; }
+.plr-shop .plr-recap-modal h2 { text-align: left; }
+.plr-shop .plr-recap-who { padding: 12px 14px; border-radius: 10px; background: var(--inner); }
+.plr-shop .plr-recap-who b { color: var(--text) !important; }
+.plr-shop .plr-recap-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.plr-shop .plr-recap-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.plr-shop .plr-recap-list li b { color: var(--price); white-space: nowrap; }
+.plr-shop .plr-recap-sum { display: flex; justify-content: space-between; align-items: baseline; }
+.plr-shop .plr-recap-sum span { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+.plr-shop .plr-recap-sum b { font-size: 24px; font-weight: 900; color: var(--price); }
+.plr-shop .plr-recap-modal .plr-confirm-actions { justify-content: flex-end; }
+.plr-shop .plr-inv-note { padding: 12px 14px; border-radius: 10px; background: var(--inner); font-size: 13px !important; }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
@@ -446,14 +464,31 @@
     </div>
   </dialog>
 
+  <!-- Récapitulatif avant validation définitive -->
+  <dialog id="plr-recap" aria-labelledby="plr-recap-t">
+    <div class="plr-confirm plr-recap-modal">
+      <h2 id="plr-recap-t">Récapitulatif de commande</h2>
+      <p class="plr-recap-who" id="plr-recap-who"></p>
+      <ul class="plr-recap-list" id="plr-recap-list"></ul>
+      <div class="plr-recap-sum"><span>Total</span><b id="plr-recap-total"></b></div>
+      <p id="plr-recap-rest"></p>
+      <div class="plr-confirm-actions">
+        <button type="button" class="plr-btn plr-btn--secondary" id="plr-recap-cancel"><span>Annuler</span></button>
+        <button type="button" class="plr-btn plr-btn--primary" id="plr-recap-ok"><span>Je valide définitivement mon panier</span></button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="plr-confirm" aria-labelledby="plr-confirm-t">
     <div class="plr-confirm">
       <div class="plr-confirm-ok"><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"/></svg></div>
       <h2 id="plr-confirm-t">Commande envoyée</h2>
       <p id="plr-confirm-txt"></p>
+      <p class="plr-inv-note">Pour suivre l'état de ta commande, consulte ton profil, onglet <b>« Inventaire »</b>.</p>
       <div class="plr-confirm-actions">
+        <a class="plr-btn plr-btn--primary" id="plr-confirm-link" href="#"><span>Voir mon inventaire</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <button type="button" class="plr-btn plr-btn--secondary" id="plr-confirm-close"><span>Continuer mes achats</span></button>
-        <a class="plr-btn plr-btn--primary" id="plr-confirm-link" href="#"><span>Voir ma commande</span><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="plr-btn plr-btn--tertiary" id="plr-forum-link" href="/"><span>Revenir sur Polaris</span></a>
       </div>
     </div>
   </dialog>
@@ -464,7 +499,7 @@
   /* ------------------------------------------------------------------
      CONFIG
      SOLDE     : étoiles du membre (à brancher sur le champ de profil).
-     ORDER_URL : sujet où les commandes sont postées.
+     INVENTORY_URL : profil du personnage, onglet « Inventaire » ; FORUM_URL : retour au forum.
      SUN_*     : soleils Figma, à héberger (servimg…) puis remplacer.
      ------------------------------------------------------------------ */
   var PLAYER = { name: "Nom du personnage", avatar: "", points: 1500 };
@@ -475,10 +510,12 @@
       PLAYER.name = ud.username || PLAYER.name;
       var m = /src="([^"]+)"/.exec(ud.avatar || "");
       PLAYER.avatar = ud.avatar_link || (m && m[1]) || "";
+      if (ud.user_id) PLAYER.profile = "/u" + ud.user_id;
     }
   } catch (e) {}
   var SOLDE = PLAYER.points;
-  var ORDER_URL = "#";
+  var FORUM_URL = "/";
+  var INVENTORY_URL = "#"; /* profil du personnage, onglet Inventaire (voir plus bas) */
   var SUN_DARK = "img/soleil-jaune-300.png";
   var SUN_LIGHT = "img/soleil-noir.png";
 
@@ -554,6 +591,7 @@
   /* Icônes du composant Tags (Figma : square-full / check-square) */
   var SQ = "M21 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V21C2 21.2652 2.10536 21.5196 2.29289 21.7071C2.48043 21.8946 2.73478 22 3 22H21C21.2652 22 21.5196 21.8946 21.7071 21.7071C21.8946 21.5196 22 21.2652 22 21V3C22 2.73478 21.8946 2.48043 21.7071 2.29289C21.5196 2.10536 21.2652 2 21 2V2ZM20 20H4V4H20V20Z";
   var CK = "M10.21 14.75C10.303 14.8437 10.4136 14.9181 10.5354 14.9689C10.6573 15.0197 10.788 15.0458 10.92 15.0458C11.052 15.0458 11.1827 15.0197 11.3046 14.9689C11.4264 14.9181 11.537 14.8437 11.63 14.75L15.71 10.67C15.8983 10.4817 16.0041 10.2263 16.0041 9.96C16.0041 9.6937 15.8983 9.4383 15.71 9.25C15.5217 9.0617 15.2663 8.95591 15 8.95591C14.7337 8.95591 14.4783 9.0617 14.29 9.25L10.92 12.63L9.71 11.41C9.5217 11.2217 9.2663 11.1159 9 11.1159C8.7337 11.1159 8.4783 11.2217 8.29 11.41C8.1017 11.5983 7.99591 11.8537 7.99591 12.12C7.99591 12.3863 8.1017 12.6417 8.29 12.83L10.21 14.75Z" + SQ;
+  var TYPE_CLS = { "Arme": "arme", "Défense": "defense", "Soin": "soin", "Random": "random", "Esthétique": "esth" };
   var STOP = ["de", "du", "des", "le", "la", "les", "un", "une", "et", "a", "en", "au", "aux", "l", "d", "pour", "par", "pas", "sur", "dans", "avec", "vous", "votre", "vos", "qui", "que", "ce", "ca", "est", "mais", "plus"];
 
   /* ---------- Utilitaires ---------- */
@@ -668,11 +706,12 @@
     return '<article class="plr-card' + (it.soldOut ? ' is-soldout' : '') + '">' +
       (badge ? '<span class="plr-badge">' + esc(badge) + '</span>' : '') +
       '<div class="plr-thumb">' + media + '</div>' +
-      '<div class="plr-body"><div class="plr-chips">' + (it.grade ? '<span class="plr-grade plr-grade--' + gradeCls + '">' + esc(it.grade) + '</span>' : '') + it.tags.map(function (t) { return '<span class="plr-chip">' + esc(t) + '</span>'; }).join("") + '</div>' +
+      '<div class="plr-body"><div class="plr-chips">' + (it.grade ? '<span class="plr-grade plr-grade--' + gradeCls + '">' + esc(it.grade) + '</span>' : '') + it.tags.map(function (t) { return '<span class="plr-chip plr-chip--' + TYPE_CLS[t] + '">' + esc(t) + '</span>'; }).join("") + '</div>' +
       '<h3>' + esc(it.name) + '</h3>' +
+      (it.stat ? '<span class="plr-bonus plr-chip--' + it.cat.id + '">' + svg(ICON[it.cat.id]) + esc(it.stat) + '</span>' : '') +
       (LIMIT_LABEL[it.limit] ? '<span class="plr-limit">' + svg("M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6zM9 12l2 2 4-4") + esc(LIMIT_LABEL[it.limit]) + '</span>' : '') +
       '<p class="plr-desc">' + esc(it.desc) + '</p>' +
-      '<div class="plr-foot"><div><span class="plr-price">' + it.priceLabel + '</span><span class="plr-stat">' + it.stat + '</span></div>' + action + '</div></div></article>';
+      '<div class="plr-foot"><span class="plr-price">' + it.priceLabel + '</span>' + action + '</div></div></article>';
   }
   function renderCats() {
     var Q = query(), rest = totals().rest;
@@ -825,19 +864,37 @@
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") cart.classList.remove("is-open"); });
 
   /* ---------- Validation ---------- */
+  var openDlg = function (d) { if (d.showModal) d.showModal(); else d.setAttribute("open", ""); };
+  var closeDlg = function (d) { if (d.close) d.close(); else d.removeAttribute("open"); };
+
+  /* Étape 1 : récapitulatif (évite les achats sur le mauvais compte) */
   $("plr-validate").addEventListener("click", function () {
     var T = totals(); if (!T.count || T.rest < 0) return;
-    $("plr-confirm-txt").innerHTML = "Ta commande de " + T.count + " objet(s) pour <b>" + fmt(T.total) + "</b> a été postée. Le staff la validera et mettra ta fiche à jour.";
-    $("plr-confirm-link").href = ORDER_URL;
+    var names = Object.keys(state.cart).filter(function (n) { return byName[n]; });
+    $("plr-recap-who").innerHTML = "Tu t'apprêtes à passer commande en tant que <b>" + esc(PLAYER.name) + "</b> pour les objets suivants :";
+    $("plr-recap-list").innerHTML = names.map(function (n) {
+      var q = state.cart[n];
+      return "<li><span>" + esc(n) + (q > 1 ? " × " + q : "") + "</span><b>" + fmt(byName[n].price * q) + "</b></li>";
+    }).join("");
+    $("plr-recap-total").textContent = fmt(T.total);
+    $("plr-recap-rest").textContent = "Il te restera " + fmt(T.rest) + " après cette commande.";
     cart.classList.remove("is-open");
-    var dlg = $("plr-confirm");
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    openDlg($("plr-recap"));
   });
-  $("plr-confirm-close").addEventListener("click", function () {
+  $("plr-recap-cancel").addEventListener("click", function () { closeDlg($("plr-recap")); });
+
+  /* Étape 2 : validation définitive → confirmation */
+  $("plr-recap-ok").addEventListener("click", function () {
+    var T = totals();
+    $("plr-confirm-txt").innerHTML = "Ta commande de " + T.count + " objet(s) pour <b>" + fmt(T.total) + "</b> a été envoyée au staff, qui la validera et mettra ta fiche à jour.";
+    $("plr-confirm-link").href = INVENTORY_URL !== "#" ? INVENTORY_URL : (PLAYER.profile || "#");
+    $("plr-forum-link").href = FORUM_URL;
     state.cart = {}; store.set("plr-cart", "{}");
-    $("plr-confirm").close ? $("plr-confirm").close() : $("plr-confirm").removeAttribute("open");
     renderCats(); renderCart();
+    closeDlg($("plr-recap"));
+    openDlg($("plr-confirm"));
   });
+  $("plr-confirm-close").addEventListener("click", function () { closeDlg($("plr-confirm")); });
 
   /* ---------- Barre joueur ---------- */
   $("plr-pname").textContent = PLAYER.name;

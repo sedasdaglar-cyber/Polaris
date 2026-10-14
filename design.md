@@ -274,7 +274,41 @@ Les descriptions s'affichent **en entier** (pas de troncature). Dans une grille,
 même rangée prennent la hauteur de la plus haute, et le pied de carte (prix + action) reste
 aligné en bas.
 
-### 5.13 Badges et états (boutique)
+### 5.13 Validation en deux temps (dépense de points)
+
+Toute action qui dépense des points passe par un **récapitulatif** avant la validation définitive :
+- rappeler **le compte / personnage** utilisé (« Tu t'apprêtes à passer commande en tant que **Zireael**… »),
+  pour éviter les achats sur le mauvais compte (multicomptes) ;
+- lister les objets (× quantité, sous-total), le **total** et le solde restant ;
+- deux actions : **Annuler** (secondaire) / **Je valide définitivement mon panier** (primaire).
+
+Écran de confirmation ensuite : ce qui va se passer (« envoyée au staff »), **où suivre** la commande
+(« ton profil, onglet Inventaire »), puis trois sorties : **Voir mon inventaire →** (primaire),
+**Continuer mes achats** (secondaire), **Revenir sur Polaris** (tertiaire).
+
+### 5.14 Couleurs des types d'objets
+
+Une couleur par type (reprises des couleurs de groupes du forum), en pastille teintée
+(texte de la couleur, fond à 16 %) pour ne pas se confondre avec le violet de l'interface
+ni avec les badges de grade (fond plein) :
+
+| Type | Nuit | Jour |
+|---|---|---|
+| Arme | `#F07070` | `#B42D2D` |
+| Défense | `#3DB8E0` | `#0A6E8E` |
+| Soin | `#3CC491` | `#1C6F52` |
+| Random | `#E8A23A` | `#8A5700` |
+| Esthétique | `#C784E8` | `#7A3BA0` |
+
+Contraste ≥ 4,5:1 sur la pastille dans les deux thèmes.
+
+### 5.15 Hiérarchie d'une carte objet
+
+Ordre de lecture : types + grade → **nom** → **bonus** (« ⚔ Attaque +8 », gras, couleur du type,
+juste sous le nom : c'est l'info qui intéresse le plus) → limite d'achat → description complète →
+pied de carte (prix + action).
+
+### 5.16 Badges et états (boutique)
 
 | Élément | Style |
 |---|---|
