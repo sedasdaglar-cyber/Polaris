@@ -79,3 +79,43 @@ lines.append('<template data-value="post:note"><div class="text-main-blue dark:t
              '&#10022; Avatar : …<br />&#10022; Image : …</template></x-post-admin>')
 sys.stdout.write("\n".join(lines))
 print(TOTAL, file=sys.stderr)
+
+
+# ---------------------------------------------------------------------------
+# Message d'annonce du sujet (annonce.html), qui contient le code de réponse.
+# Le code est dans un <textarea> écrit sur UNE seule ligne :
+# - un [code] ne marche pas : le forum transforme son texte en vrai <x-post-admin>
+#   (String.f2p remplace &lt; par <) avant d'en faire un textarea ;
+# - dans un <textarea>, les balises restent du texte ; les retours à la ligne sont
+#   écrits &#13; (Forumactif ne les change pas en <br />, et f2p ne touche que \n).
+import html as _html
+
+reponse = "\n".join(lines)
+zone = ('<textarea readonly class="bg-white dark:bg-main-black text-main-black dark:text-main-white" '
+        'style="display:block;width:100%;height:240px;box-sizing:border-box;margin-top:8px;padding:12px;border:0;'
+        'border-radius:4px;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;resize:vertical">'
+        + _html.escape(reponse, quote=False).replace("\n", "&#13;") + '</textarea>')
+
+annonce = "\n".join([
+    '<x-post-admin><template data-value="post:titre">Animation : 100 questions</template>'
+    '<template data-value="post:sous-titre">Flood, ouvert à tous</template>'
+    '<template data-value="post:image"><img class="hidden dark:block" src="LIEN_IMAGE_NUIT"><img class="block dark:hidden" src="LIEN_IMAGE_JOUR"></template>'
+    f'<template data-value="post:texte"><span class="{ACCENT}">Flood, animation</span>',
+    '',
+    'Combien de questions faut-il pour vraiment connaître quelqu’un ? Cent, peut-être.',
+    '',
+    f'On vous propose de passer votre personnage au crible : son physique, ses petites manies, ses souvenirs, ses amours, ce qu’il pense des Constellations… {TOTAL} questions en tout, réparties en {len(SECTIONS)} chapitres.',
+    '',
+    f'<span class="{ACCENT}">Comment participer</span>',
+    '&#10022; Clique dans le cadre ci-dessous, sélectionne tout (Ctrl + A ou Cmd + A) et copie',
+    '&#10022; Colle le code dans une réponse à ce sujet',
+    '&#10022; Remplace chaque « … » par ta réponse, sur la même ligne',
+    '&#10022; Ajoute ton image (600 × 190) et tes crédits, ou supprime la ligne de l’image',
+    zone + '</template>',
+    '<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Informations importantes</div>'
+    '&#10022; Un message par personnage, les multicomptes sont les bienvenus<br />'
+    '&#10022; Pas besoin de tout remplir d’un coup : édite ton message au fur et à mesure<br />'
+    '&#10022; Pas d’ordre de passage<br />'
+    '&#10022; [Durée de l’animation / récompense éventuelle]</template></x-post-admin>',
+])
+open(__file__.replace("generer.py", "annonce.html"), "w", encoding="utf-8").write(annonce)

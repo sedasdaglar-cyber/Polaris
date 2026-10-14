@@ -14,6 +14,25 @@ bloc de texte, note. Le style vient du forum : rien à héberger, et le thème j
 
 *(Les aperçus montrent l'image de l'event n° 2 à la place de `LIEN_DE_TON_IMAGE`.)*
 
+## Message d'annonce (staff)
+
+[`annonce.html`](annonce.html) : premier message du sujet, à poster tel quel après avoir remplacé
+`LIEN_IMAGE_NUIT` / `LIEN_IMAGE_JOUR` (bandeau 600 × 190, une version par thème) et la ligne
+`[Durée de l’animation / récompense éventuelle]`. Il explique l'animation et contient le code de
+réponse dans un cadre à copier.
+
+| Nuit | Jour |
+|---|---|
+| ![](annonce-nuit.png) | ![](annonce-jour.png) |
+
+⚠️ **Ne pas mettre le code de réponse dans un `[code]`** : le script du forum (`String.f2p`)
+transforme le texte du `[code]` en vrai `<x-post-admin>` avant d'en faire un cadre à copier,
+et les membres copieraient le rendu au lieu du code. L'annonce utilise donc un `<textarea>` écrit
+sur **une seule ligne**, avec `&#13;` pour les retours à la ligne : testé avec les scripts du
+forum, le texte copié est identique à `code-reponse.html`. Si on modifie l'annonce, garder le
+`<textarea>` sur une seule ligne (sinon Forumactif y ajoute des `<br />`). Penser à
+**prévisualiser** avant de poster, au cas où Forumactif filtrerait le `<textarea>`.
+
 ## Mode d'emploi pour les membres
 
 1. Copier tout le contenu de [`code-reponse.html`](code-reponse.html) et le coller dans une réponse.
