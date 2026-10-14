@@ -33,6 +33,7 @@ Deux colonnes sur ordinateur, une sur mobile.
 - Le `<style>` tient sur **une seule ligne** : Forumactif change chaque retour à la ligne en
   `<br />`, ce qui casserait le CSS. Pour la même raison, le CSS masque les `<br />` placés entre
   les blocs (`.q100 br{display:none}`) et ne les garde que dans les réponses.
+- Forumactif change les caractères spéciaux (✦, accents…) en `&#…;`, même dans `<style>`, où ils ne sont pas décodés : le CSS est donc **uniquement en ASCII** (`"\\2726"` pour ✦, vérifié par le script).
 - Le script du forum (`String.f2p`) remplace `[b]`, `[i]`, `[u]`, `[s]` et `[tw]` : le CSS n'en
   contient pas (le script le vérifie).
 - Testé avec les vrais scripts du forum (`library` + `components`) en jour, en nuit et sur mobile.

@@ -77,14 +77,15 @@ CSS = """
 .q100-head .q100-name{margin-top:18px;font-size:20px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
 .q100-head .q100-info{margin-top:2px;font-size:13px;font-weight:700;opacity:.85}
 .q100-head .q100-quote{max-width:420px;margin-top:16px;font-style:italic}
-.q100-body{padding:4px 32px 28px;background-image:radial-gradient(var(--dot) 1px,transparent 1.6px),radial-gradient(var(--dot) 1px,transparent 1.6px);background-size:47px 47px,71px 71px;background-position:0 0,23px 31px}
+.q100-body{padding:4px 32px 28px;background-image:radial-gradient(circle,var(--dot) 1px,transparent 1.5px);background-size:28px 28px;background-position:14px 14px}
 .q100-ch{padding-top:40px;counter-increment:q100c}
 .q100-qs{columns:2 240px;column-gap:36px}
 .q100-h{position:relative;margin:0 0 22px;padding-bottom:10px;border-bottom:2px solid var(--line);font-family:motesar,serif;font-size:30px;line-height:1;text-transform:uppercase}
-.q100-h:before{content:"Chapitre " counter(q100c,upper-roman) "  ✦";display:block;margin-bottom:8px;font-family:lato,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent)}
+.q100-h:before{content:"Chapitre " counter(q100c,upper-roman) "  \\2726";display:block;margin-bottom:8px;font-family:lato,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--accent)}
 .q100-h:after{content:counter(q100c,upper-roman);position:absolute;right:0;bottom:-4px;font-size:92px;line-height:.8;color:transparent;-webkit-text-stroke:1px var(--line);pointer-events:none}
-.q100-ch p{position:relative;margin:0 0 0 6px;padding:0 0 18px 20px;border-left:1px dashed var(--line);break-inside:avoid;counter-increment:q100q}
-.q100-ch p:before{content:"✦";position:absolute;left:-7px;top:-1px;font-size:13px;line-height:1;color:var(--star);background:var(--bg)}
+.q100-ch p{position:relative;margin:0;padding:0 0 18px 26px;break-inside:avoid;counter-increment:q100q}
+.q100-ch p:after{content:"";position:absolute;left:6px;top:17px;bottom:2px;border-left:1px dashed var(--line)}
+.q100-ch p:before{content:"\\2726";position:absolute;left:0;top:0;width:13px;text-align:center;font-size:13px;line-height:1;color:var(--star)}
 .q100-ch p b{display:block;margin-bottom:3px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
 .q100-ch p b:before{content:counter(q100q,q100-pad) "  ";color:var(--accent);letter-spacing:1px}
 @counter-style q100-pad{system:extends decimal;pad:3 "0"}
@@ -94,6 +95,8 @@ CSS = """
 css = "".join(l.strip() for l in CSS.strip().splitlines())
 for bad in ("[b]", "[i]", "[u]", "[s]", "[tw]", "\n"):
     assert bad not in css.lower(), bad
+# Forumactif change les caractères non ASCII en &#…; même dans <style> : CSS en ASCII seulement.
+assert css.isascii(), [c for c in css if not c.isascii()]
 
 lines = []
 w = lines.append
