@@ -109,7 +109,14 @@
 
 /* ---------- Bascule jour / nuit ---------- */
 .plr-shop .plr-playerbar { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px clamp(16px, 3vw, 40px); border-bottom: 1px solid var(--line); background: var(--bg); }
-.plr-shop .plr-player { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.plr-shop .plr-player { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+/* Retour au forum : flèche + infobulle (desktop) / lien complet au-dessus (mobile) */
+.plr-shop .plr-back { position: relative; flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--text); background: var(--surface); text-decoration: none; }
+.plr-shop .plr-back:hover { background: var(--inner); color: var(--nav); }
+.plr-shop .plr-back:focus-visible { outline: 3px solid var(--plr-active); outline-offset: 2px; }
+.plr-shop .plr-back-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.plr-shop .plr-back::after { content: attr(data-tip); position: absolute; left: 0; top: calc(100% + 8px); z-index: 5; white-space: nowrap; padding: 6px 10px; border-radius: 6px; background: var(--plr-dark-gray); color: var(--plr-white); font-size: 12px; font-weight: 700; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity .15s, transform .15s; }
+.plr-shop .plr-back:hover::after, .plr-shop .plr-back:focus-visible::after { opacity: 1; transform: none; }
 .plr-shop .plr-avatar { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: grid; place-items: center; background: var(--icon-bg); color: var(--nav); border: 2px solid var(--primary); font-weight: 900; font-size: 16px; }
 .plr-shop .plr-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .plr-shop .plr-player-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
@@ -303,7 +310,11 @@
   .plr-shop .plr-cartbar b { font-size: 18px; font-weight: 900; color: var(--bar-total); }
   .plr-shop .plr-cartbar-n { background: var(--plr-gold); color: var(--plr-black); border-radius: 999px; min-width: 22px; padding: 1px 6px; font-size: 12px; font-weight: 900; text-align: center; }
   .plr-shop .plr-tags { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
-  .plr-shop .plr-playerbar { padding: 12px 16px; }
+  .plr-shop .plr-playerbar { padding: 10px 16px 12px; flex-wrap: wrap; row-gap: 10px; }
+  .plr-shop .plr-back { order: -1; flex: 1 1 100%; width: auto; height: 32px; border-radius: 0; justify-content: flex-start; background: none; font-size: 13px; font-weight: 700; color: var(--nav); }
+  .plr-shop .plr-back:hover { background: none; }
+  .plr-shop .plr-back::after { display: none; }
+  .plr-shop .plr-back-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
   .plr-shop .plr-theme .plr-ic { display: none; }
   .plr-shop .plr-drawer { inset: auto 0 0 0; width: 100vw; height: auto; max-height: 85vh; border-left: 0; border-top: 6px solid var(--primary); border-radius: 20px 20px 0 0; }
   .plr-shop .plr-drawer[open] { animation-name: plr-slide-y; }
@@ -334,6 +345,7 @@
 <div class="plr-shop plr-dark" id="plr-shop">
   <!-- Barre joueur : avatar, personnage, points à gauche / thème à droite -->
   <div class="plr-playerbar">
+    <a class="plr-back" id="plr-back" href="/" data-tip="Retourner sur le forum"><svg class="plr-ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width:2.2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span class="plr-back-label">Retourner sur le forum</span></a>
     <div class="plr-player">
       <span class="plr-avatar" id="plr-avatar" aria-hidden="true"></span>
       <span class="plr-player-txt">
@@ -898,6 +910,7 @@
 
   /* ---------- Barre joueur ---------- */
   $("plr-pname").textContent = PLAYER.name;
+  $("plr-back").href = FORUM_URL;
   $("plr-avatar").innerHTML = PLAYER.avatar ? '<img src="' + esc(PLAYER.avatar) + '" alt="">' : esc(PLAYER.name.trim().charAt(0).toUpperCase() || "?");
 
   /* ---------- Tiroir « gagner des étoiles » ---------- */

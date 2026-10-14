@@ -248,6 +248,12 @@ Pleine largeur, au-dessus de tout le contenu, séparée par un filet `--line` :
 
 Ne pas laisser la bascule de thème seule dans un bandeau vide : elle va dans cette barre.
 
+**Retour au forum** :
+- **desktop** : bouton rond 40 px avec une flèche ←, placé avant l'avatar, et une infobulle
+  « Retourner sur le forum » au survol et au focus clavier ;
+- **mobile** : le lien complet « ← Retourner sur le forum » occupe sa propre ligne, **au-dessus**
+  de l'avatar, en couleur d'accent (13 px gras).
+
 ### 5.10 Titres de section (pas d'accordéon)
 
 Quand une page propose déjà des filtres, les sections ne se replient pas : chaque section a un
