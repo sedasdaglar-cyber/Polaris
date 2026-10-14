@@ -1,39 +1,41 @@
 # Animation flood : 100 questions
 
-Code de réponse à coller dans le sujet d'animation du **Flood**, pour que chaque membre
+Code de réponse à copier-coller dans le sujet d'animation du **Flood**, pour que chaque membre
 réponde aux questions sur son personnage (liste reprise de la page Notion *100 questions* :
 7 chapitres, 102 questions).
 
-Le code reprend la charte de [`design.md`](../../design.md) : bandeau violet la nuit et cyan le jour,
-grille à 8 %, soleil rayonnant (jaune la nuit, noir le jour), ✦, ポラリス vertical, titres en
-*motesar*, carte avec liseré haut de 6 px, sections numérotées « 001 », icônes dans un carré arrondi.
+Le code utilise le composant du forum **`<x-post-admin>`**, le même que les sujets d'event
+(ex. *Évent n° 2 : Attrapez les tous !*) : en-tête violet la nuit et bleu le jour, image,
+bloc de texte, note. Le style vient du forum : rien à héberger, et le thème jour / nuit suit tout seul.
 
 | Nuit | Jour | Mobile |
 |---|---|---|
 | ![](apercu-nuit.png) | ![](apercu-jour.png) | ![](apercu-mobile-nuit.png) |
 
+*(Les aperçus montrent l'image de l'event n° 2 à la place de `LIEN_DE_TON_IMAGE`.)*
+
 ## Mode d'emploi pour les membres
 
-1. Copier tout le contenu de [`code-reponse.html`](code-reponse.html).
-2. Le coller dans une réponse du sujet (éditeur en mode source / BBCode, HTML activé).
-3. Remplacer :
-   - `LIEN_DE_TON_IMAGE` : lien de ton image, format portrait (200 × 250 px conseillé) ;
-   - `Nom du personnage`, `âge · métier · groupe`, `« Une citation de ton personnage. »` ;
-   - chaque `Ta réponse` par ta réponse. Les retours à la ligne dans une réponse sont gardés.
-4. Ne touche pas au reste : les questions s'adaptent toutes seules au mode jour / nuit et au mobile.
+1. Copier tout le contenu de [`code-reponse.html`](code-reponse.html) et le coller dans une réponse.
+2. Remplacer :
+   - `Nom du personnage · âge · métier · groupe` (sous-titre) ;
+   - `LIEN_DE_TON_IMAGE` : une image en bandeau (environ 600 × 190 px). Pas d'image ?
+     Supprimer `<img src="LIEN_DE_TON_IMAGE">` : le cadre disparaît ;
+   - la citation ;
+   - chaque `…` après une question, par ta réponse (sur la même ligne) ;
+   - les crédits en bas.
+3. Une ligne du code = une ligne affichée : ne pas ajouter de retour à la ligne entre deux questions.
 
-Les questions sont dans une zone qui défile (560 px de haut) pour ne pas allonger le Flood.
+Les questions sont dans une zone qui défile (460 px de haut) pour ne pas allonger le Flood.
 
-## Notes techniques (Forumactif)
+## Structure du code
 
-- **Pas de `<style>` ni de `<script>`** : tout est en styles en ligne, plus quelques classes
-  Tailwind déjà compilées dans `main.css` du forum pour suivre le thème
-  (`bg-main-blue dark:bg-main-purple`, `text-main-blue dark:text-secondary-gold`,
-  `hidden dark:block`…). Le thème du forum passe par `[data-theme=dark]`.
-- **Retours à la ligne** : Forumactif transforme chaque saut de ligne en `<br />`. Les conteneurs
-  sont en `display:flex; flex-wrap:wrap; line-height:0` : les `<br />` y prennent 0 px.
-  Chaque bloc redéfinit son `line-height`. Pas de `gap` (il espacerait les `<br />`).
-- Polices : *motesar* et *Lato* sont déjà chargées par le forum ; icônes Material Symbols aussi.
-- Code de ~39 000 caractères, sous la limite d'un message.
-- Pour modifier les questions ou le style : éditer [`generer.py`](generer.py), puis
-  `python3 generer.py > code-reponse.html`.
+| Zone | Contenu |
+|---|---|
+| `post:titre` | « 100 questions » |
+| `post:sous-titre` | nom et infos du personnage |
+| `post:image` | bandeau du membre (ou deux images `hidden dark:block` / `block dark:hidden` pour jour et nuit) |
+| `post:texte` | citation, puis les 7 chapitres (`Title:H4` jaune la nuit, bleu le jour) et les questions en gras |
+| `post:note` | crédits (titre violet clair la nuit, bleu le jour) |
+
+Pour modifier les questions : éditer [`generer.py`](generer.py), puis `python3 generer.py > code-reponse.html`.

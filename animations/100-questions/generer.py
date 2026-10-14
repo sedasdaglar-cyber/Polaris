@@ -1,8 +1,8 @@
-# Génère animations/100-questions/code-reponse.html : le code à coller dans une réponse Forumactif.
-# Contrainte : Forumactif transforme chaque retour à la ligne en <br />.
-# Tous les conteneurs qui ont des enfants sur plusieurs lignes sont donc en
-# display:flex;flex-wrap:wrap;line-height:0 (les <br /> y deviennent invisibles),
-# et chaque bloc enfant redéfinit son line-height. Aucun "gap" (il espacerait les <br />).
+# Génère animations/100-questions/code-reponse.html : le code à coller dans une
+# réponse du Flood. Il utilise le composant du forum <x-post-admin> (comme les
+# sujets d'event) : chaque <template data-value="post:…"> remplit une zone.
+# Forumactif transforme les retours à la ligne en <br /> : dans post:texte,
+# une ligne du code = une ligne affichée.
 import sys
 
 L = "LONG"  # question à pleine largeur
@@ -55,72 +55,27 @@ SECTIONS = [
 TOTAL = sum(len(s[2]) for s in SECTIONS)
 
 ACCENT = "text-main-blue dark:text-secondary-gold"
-FLEX = "display:flex;flex-wrap:wrap;line-height:0"
 
-def sun(color, gap, cls):
-    # Soleil rayonnant en CSS : disque + anneau vide + rayons (conic-gradient).
-    return (f'<div class="{cls}" style="position:absolute;top:-80px;right:-80px;width:250px;height:250px;'
-            f'border-radius:50%;opacity:.9;background:radial-gradient(circle,{color} 0 27%,{gap} 27.5% 35%,transparent 35.5%),'
-            f'repeating-conic-gradient({color} 0 2deg,transparent 2deg 9deg)"></div>')
-
-def star(top, left, size, cls="text-main-white dark:text-secondary-gold"):
-    return (f'<span class="{cls}" style="position:absolute;top:{top};left:{left};font-size:{size};'
-            f'line-height:1;opacity:.85">✦</span>')
-
-out = []
-w = out.append
-
-# Conteneur général
-w(f'<div class="text-main-black dark:text-main-white" style="{FLEX};max-width:780px;margin:0 auto;font-family:lato,sans-serif;font-size:14px">')
-
-# ---------- Bandeau ----------
-w('<div class="bg-main-blue dark:bg-main-purple" style="position:relative;overflow:hidden;flex:1 1 100%;'
-  'border-radius:12px 12px 12px 72px;padding:24px 48px 26px 24px;line-height:1.35;'
-  'background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:32px 32px">'
-  + sun("#0F0F0F", "#0C9BC3", "dark:hidden") + sun("#FCC430", "#591696", "hidden dark:block")
-  + star("18px", "46%", "18px") + star("64%", "86%", "11px") + star("82%", "8%", "13px")
-  + '<span style="position:absolute;right:16px;bottom:18px;writing-mode:vertical-rl;font-size:12px;letter-spacing:8px;color:#fff;opacity:.6;line-height:1">ポラリス</span>'
-  + f'<div style="position:relative;{FLEX};align-items:center">')
-# Illustration (un seul coin très arrondi)
-w('<div style="flex:0 0 150px;height:190px;margin:0 22px 12px 0;border-radius:6px 6px 6px 48px;border:2px solid rgba(255,255,255,.45);'
-  'background:rgba(15,15,15,.25) url(LIEN_DE_TON_IMAGE) center/cover no-repeat;display:flex;align-items:center;justify-content:center;'
-  'color:#fff;font-size:30px;line-height:1">✦</div>')
-# Textes
-w(f'<div style="flex:1 1 250px;line-height:1.35">'
-  '<span style="display:inline-block;padding:4px 12px;border-radius:32px;background:#FCC430;color:#0F0F0F;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase">✦ Flood · animation</span>'
-  '<div style="margin:12px 0 10px;font-family:motesar,serif;font-size:clamp(36px,7vw,54px);line-height:.95;text-transform:uppercase;color:#fff">100 questions</div>'
-  '<div class="text-main-black dark:text-main-white">'
-  '<div style="font-size:18px;font-weight:900;letter-spacing:1px;text-transform:uppercase">Nom du personnage</div>')
-w('<div style="font-size:13px;font-weight:700;opacity:.85">âge · métier · groupe</div>')
-w('<div style="margin-top:10px;font-style:italic">« Une citation de ton personnage. »</div>')
-w('</div></div></div></div>')
-
-# ---------- Carte des questions ----------
-w('<div class="bg-main-white dark:bg-background-dark border-t-main-blue dark:border-t-main-purple" style="flex:1 1 100%;margin-top:16px;'
-  'border-top-width:6px;border-top-style:solid;border-radius:12px;padding:6px 8px 14px 14px;line-height:1.35">'
-  f'<div style="{FLEX};align-content:flex-start;max-height:560px;overflow-y:auto;scrollbar-width:thin;padding-right:6px">')
-
-for i, (title, icon, qs) in enumerate(SECTIONS, 1):
-    w(f'<div class="border-b-main-blue dark:border-b-secondary-light-purple" style="flex:1 1 100%;display:flex;align-items:center;'
-      f'margin:{16 if i > 1 else 10}px 4px 6px;padding-bottom:10px;border-bottom-width:2px;border-bottom-style:solid;line-height:1">'
-      f'<span class="bg-secondary-soft-blue dark:bg-secondary-gold/10 {ACCENT}" style="flex:0 0 38px;height:38px;margin-right:12px;border-radius:6px;display:flex;align-items:center;justify-content:center">'
-      f'<span class="material-symbols-outlined" style="font-size:22px">{icon}</span></span>'
-      f'<span style="flex:1 1 auto"><span class="{ACCENT}" style="display:block;font-size:12px;font-weight:700;letter-spacing:2px">{i:03d}</span>'
-      f'<span style="display:block;margin-top:4px;font-family:motesar,serif;font-size:26px;text-transform:uppercase">{title}</span></span>'
-      f'<span style="flex:0 0 auto;margin-left:12px;font-size:12px;opacity:.7">{len(qs)} questions</span></div>')
+lines = []
+w = lines.append
+w('<x-post-admin><template data-value="post:titre">100 questions</template>'
+  '<template data-value="post:sous-titre">Nom du personnage · âge · métier · groupe</template>'
+  '<template data-value="post:image"><img src="LIEN_DE_TON_IMAGE"></template>'
+  f'<template data-value="post:texte"><span class="{ACCENT}">« Une citation de ton personnage. »</span>')
+w('')
+# Zone qui défile : le premier contenu suit la balise ouvrante pour éviter un <br /> en tête.
+body = []
+for i, (title, _icon, qs) in enumerate(SECTIONS, 1):
+    if i > 1:
+        body.append('')
+    body.append(f'<span class="Title:H4 {ACCENT}">✦ {i:03d} · {title}</span>')
     for q in qs:
-        long = isinstance(q, tuple)
-        label = q[0] if long else q
-        basis = "100%" if long else "200px"
-        w(f'<div style="flex:1 1 {basis};margin:4px;padding:10px 12px;border-radius:6px;background:rgba(128,128,128,.12);line-height:1.35">'
-          f'<b style="display:block;margin-bottom:3px;font-size:11px;letter-spacing:.6px;text-transform:uppercase;opacity:.7">{label}</b>Ta réponse</div>')
-
-w('</div></div>')
-
-# ---------- Pied ----------
-w(f'<div style="flex:1 1 100%;margin-top:10px;padding-right:6px;text-align:right;font-size:11px;letter-spacing:1px;text-transform:uppercase;line-height:1.35;opacity:.7">'
-  f'<span class="{ACCENT}">✦</span> {TOTAL} questions · Polaris</div>')
-w('</div>')
-
-sys.stdout.write("\n".join(out))
+        label = q[0] if isinstance(q, tuple) else q
+        body.append(f'<b>{label} :</b> …')
+body[0] = '<div style="max-height:460px;overflow-y:auto;scrollbar-width:thin;padding-right:8px">' + body[0]
+body[-1] += '</div></template>'
+lines += body
+lines.append('<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Crédits</div>'
+             '&#10022; Avatar : …<br />&#10022; Image : …</template></x-post-admin>')
+sys.stdout.write("\n".join(lines))
 print(TOTAL, file=sys.stderr)
