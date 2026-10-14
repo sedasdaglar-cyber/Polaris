@@ -60,10 +60,8 @@ lines = []
 w = lines.append
 w('<x-post-admin><template data-value="post:titre">100 questions</template>'
   '<template data-value="post:sous-titre">Nom du personnage · âge · métier · groupe</template>'
-  '<template data-value="post:image"><img src="LIEN_DE_TON_IMAGE"></template>'
   f'<template data-value="post:texte"><span class="{ACCENT}">« Une citation de ton personnage. »</span>')
 w('')
-# Zone qui défile : le premier contenu suit la balise ouvrante pour éviter un <br /> en tête.
 body = []
 for i, (title, _icon, qs) in enumerate(SECTIONS, 1):
     if i > 1:
@@ -72,11 +70,10 @@ for i, (title, _icon, qs) in enumerate(SECTIONS, 1):
     for q in qs:
         label = q[0] if isinstance(q, tuple) else q
         body.append(f'<b>{label} :</b> …')
-body[0] = '<div style="max-height:460px;overflow-y:auto;scrollbar-width:thin;padding-right:8px">' + body[0]
-body[-1] += '</div></template>'
+body[-1] += '</template>'
 lines += body
 lines.append('<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Crédits</div>'
-             '&#10022; Avatar : …<br />&#10022; Image : …</template></x-post-admin>')
+             '&#10022; Avatar : …</template></x-post-admin>')
 sys.stdout.write("\n".join(lines))
 print(TOTAL, file=sys.stderr)
 
@@ -110,7 +107,7 @@ annonce = "\n".join([
     '&#10022; Clique dans le cadre ci-dessous, sélectionne tout (Ctrl + A ou Cmd + A) et copie',
     '&#10022; Colle le code dans une réponse à ce sujet',
     '&#10022; Remplace chaque « … » par ta réponse, sur la même ligne',
-    '&#10022; Ajoute ton image (600 × 190) et tes crédits, ou supprime la ligne de l’image',
+    '&#10022; Complète le sous-titre, la citation et les crédits',
     zone + '</template>',
     '<template data-value="post:note"><div class="text-main-blue dark:text-secondary-light-purple mb-2">Informations importantes</div>'
     '&#10022; Un message par personnage, les multicomptes sont les bienvenus<br />'
